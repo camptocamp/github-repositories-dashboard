@@ -69,7 +69,7 @@ function updateForkStatus(repo) {
   var r = repositories[repo.name]['repo'];
 
   // get diff
-  r.compare(p.owner.login+':master', 'master', function(err, diff) {
+  r.compare(p.owner.login+':master', org+':master', function(err, diff) {
     if (err) {
       updateCell(repo.name, 'status', 'ERR');
     } else {
@@ -83,7 +83,8 @@ function updateForkStatus(repo) {
       } else {
         diff_msg = diff.status;
       }
-      updateCell(repo.name, 'status', diff_msg);
+      html = '<a href="'+diff.html_url+'">'+diff_msg+'</a>';
+      updateCell(repo.name, 'status', html);
     }
   });
 }
