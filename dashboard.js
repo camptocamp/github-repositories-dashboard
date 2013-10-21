@@ -48,6 +48,7 @@ function updateOriginStatus(err, repo) {
   // check hooks
   //updateHooksStatus(repo);
   updatePullsStatus(repo);
+  updateTravisStatus(repo);
 }
 
 function updateOrigin(repo) {
@@ -92,4 +93,9 @@ function updatePullsStatus(repo) {
     html = '<a href="https://github.com/'+org+'/'+repo.name+'/pulls">'+pulls.length+'</a>';
     updateCell(repo.name, 'pulls', html);
   });
+}
+
+function updateTravisStatus(repo) {
+  var img = document.getElementById(repo).getElementsByClassName('r_travis')[0].getElementsByTagName('img')[0]
+  img.src = 'https://travis-ci.org/'+org+'/'+repo.name+'.png#' + new Date().getTime();
 }
