@@ -10,14 +10,12 @@ function listRepos(err, repos) {
     reposTable.appendChild(repoLine);
     repositories[name] = {};
     repositories[name]['info'] = repos[i];
+    initRepo(name);
     updateRepo(name);
   }
 }
 
-function updateRepo(name) {
-  var r = github.getRepo(org, name);
-  //console.log(r);
-  repositories[name]['repo'] = r;
+function initRepo(name) {
   info = repositories[name]['info'];
   html = '<td class="r_name">'+name+'</td>';
   html += '<td class="r_origin"><img src="images/loading.gif" width="30px" /></td>';
@@ -34,7 +32,17 @@ function updateRepo(name) {
   // hooks: which hooks are configured
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
+}
+
+function updateRepo(name) {
+  var r = github.getRepo(org, name);
+  repositories[name]['repo'] = r;
   r.show(updateOriginStatus);
+
+  // check hooks
+  //updateHooksStatus(name);
+  updatePullsStatus(name);
+  updateTravisStatus(name);
 
   // auto-refresh
   if (refresh > 0) {
@@ -58,10 +66,6 @@ function updateOriginStatus(err, repo) {
     updateCell(repo.name, 'origin', 'N/A');
     updateCell(repo.name, 'status', 'N/A');
   }
-
-  // check hooks
-  //updateHooksStatus(repo);
-  updatePullsStatus(repo);
 }
 
 function updateOrigin(repo) {
@@ -94,17 +98,29 @@ function updateForkStatus(repo) {
   });
 }
 
-function updateHooksStatus(repo) {
-  var r = repositories[repo.name]['repo'];
+function updateHooksStatus(name) {
+  var r = repositories[name]['repo'];
   r.listHooks(function(err, hooks) {
     console.log(hooks);
   });
 }
 
-function updatePullsStatus(repo) {
-  var r = repositories[repo.name]['repo'];
+function updatePullsStatus(name) {
+  var r = repositories[name]['repo'];
   r.listPulls('open', function(err, pulls) {
-    html = '<a href="https://github.com/'+org+'/'+repo.name+'/pulls">'+pulls.length+'</a>';
-    updateCell(repo.name, 'pulls', html);
+    html = '<a href="https://github.com/'+org+'/'+name+'/pulls">'+pulls.length+'</a>';
+    updateCell(name, 'pulls', html);
   });
+}
+
+function updateTravisStatus(name) {
+  info = repositories[name]['info'];
+  var travis_url;
+  if (info.private) {
+    travis_url = 'https://magnum.travis-ci.com/';
+  } else {
+    travis_url = 'https://travis-ci.org/';
+  }
+  html = '<a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a>';
+  updateCell(name, 'travis', html);
 }
