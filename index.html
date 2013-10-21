@@ -44,6 +44,7 @@ function updateRepo(name) {
   html = '<td class="r_name">'+name+'</td>';
   html += '<td class="r_origin"><img src="images/loading.gif" width="30px" /></td>';
   html += '<td class="r_status"><img src="images/loading.gif" width="30px" /></td>';
+  html += '<td class="r_pulls"><img src="images/loading.gif" width="30px" /></td>';
   html += '<td class="r_travis"><a href="https://travis-ci.org/'+org+'/'+name+'"><img src="https://travis-ci.org/'+org+'/'+name+'.png" /></a></td>';
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
@@ -68,6 +69,7 @@ function updateOriginStatus(err, repo) {
 
   // check hooks
   //updateHooksStatus(repo);
+  updatePullsStatus(repo);
 }
 
 function updateForkStatus(repo) {
@@ -103,12 +105,20 @@ function updateHooksStatus(repo) {
   });
 }
 
+function updatePullsStatus(repo) {
+  var r = repositories[repo.name]['repo'];
+  r.listPulls('open', function(err, pulls) {
+    html = '<a href="https://github.com/'+org+'/'+repo.name+'/pulls">'+pulls.length+'</a>';
+    updateCell(repo.name, 'pulls', html);
+  });
+}
+
     </script>
   </head>
   <body>
     <table>
       <tbody id='repositories'>
-        <tr><th>Module name</th><th>Origin</th><th>Status</th><th>Travis</th><th>Refresh</th></tr>
+        <tr><th>Module name</th><th>Origin</th><th>Status</th><th>Pull Requests</th><th>Travis CI</th><th>Refresh</th></tr>
       </tbody>
     </table>
   </body>
