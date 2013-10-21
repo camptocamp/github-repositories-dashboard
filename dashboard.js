@@ -18,11 +18,18 @@ function updateRepo(name) {
   var r = github.getRepo(org, name);
   //console.log(r);
   repositories[name]['repo'] = r;
+  info = repositories[name]['info'];
   html = '<td class="r_name">'+name+'</td>';
   html += '<td class="r_origin"><img src="images/loading.gif" width="30px" /></td>';
   html += '<td class="r_status"><img src="images/loading.gif" width="30px" /></td>';
   html += '<td class="r_pulls"><img src="images/loading.gif" width="30px" /></td>';
-  html += '<td class="r_travis"><a href="https://travis-ci.org/'+org+'/'+name+'"><img src="https://travis-ci.org/'+org+'/'+name+'.png#'+new Date().getTime()+'" /></a></td>';
+  var travis_url;
+  if (info.private) {
+    travis_url = 'https://magnum.travis-ci.com/';
+  } else {
+    travis_url = 'https://travis-ci.org/';
+  }
+  html += '<td class="r_travis"><a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a></td>';
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
   r.show(updateOriginStatus);
