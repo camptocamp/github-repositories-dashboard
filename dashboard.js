@@ -22,7 +22,7 @@ function updateRepo(name) {
   html += '<td class="r_origin"><img src="images/loading.gif" width="30px" /></td>';
   html += '<td class="r_status"><img src="images/loading.gif" width="30px" /></td>';
   html += '<td class="r_pulls"><img src="images/loading.gif" width="30px" /></td>';
-  html += '<td class="r_travis"><a href="https://travis-ci.org/'+org+'/'+name+'"><img src="https://travis-ci.org/'+org+'/'+name+'.png" /></a></td>';
+  html += '<td class="r_travis"><a href="https://travis-ci.org/'+org+'/'+name+'"><img src="https://travis-ci.org/'+org+'/'+name+'.png#'+new Date().getTime()+'" /></a></td>';
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
   r.show(updateOriginStatus);
@@ -48,7 +48,6 @@ function updateOriginStatus(err, repo) {
   // check hooks
   //updateHooksStatus(repo);
   updatePullsStatus(repo);
-  updateTravisStatus(repo);
 }
 
 function updateOrigin(repo) {
@@ -93,9 +92,4 @@ function updatePullsStatus(repo) {
     html = '<a href="https://github.com/'+org+'/'+repo.name+'/pulls">'+pulls.length+'</a>';
     updateCell(repo.name, 'pulls', html);
   });
-}
-
-function updateTravisStatus(repo) {
-  var img = document.getElementById(repo).getElementsByClassName('r_travis')[0].getElementsByTagName('img')[0]
-  img.src = 'https://travis-ci.org/'+org+'/'+repo.name+'.png#' + new Date().getTime();
 }
