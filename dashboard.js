@@ -30,6 +30,8 @@ function updateRepo(name) {
     travis_url = 'https://travis-ci.org/';
   }
   html += '<td class="r_travis"><a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a></td>';
+  // forge: version on the forge, if any (see https://projects.puppetlabs.com/projects/module-site/wiki/Server-api)
+  // hooks: which hooks are configured
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
   r.show(updateOriginStatus);
