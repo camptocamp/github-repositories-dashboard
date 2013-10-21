@@ -38,6 +38,7 @@ function updateOriginStatus(err, repo) {
 
   // check fork
   if (info.fork) {
+    updateOrigin(repo);
     updateForkStatus(repo);
   } else {
     updateCell(repo.name, 'origin', 'N/A');
@@ -49,14 +50,17 @@ function updateOriginStatus(err, repo) {
   updatePullsStatus(repo);
 }
 
+function updateOrigin(repo) {
+  var p = repo.parent;
+  updateCell(repo.name, 'origin', p.owner.login+'/'+p.name);
+}
+
 function updateForkStatus(repo) {
   var p = repo.parent;
-  var pOwner = p.owner.login;
   var r = repositories[repo.name]['repo'];
 
   // get diff
-  r.compare(pOwner+':master', 'master', function(err, diff) {
-    updateCell(repo.name, 'origin', p.owner.login+'/'+p.name);
+  r.compare(p.owner.login+':master', 'master', function(err, diff) {
     if (err) {
       updateCell(repo.name, 'status', 'ERR');
     } else {
