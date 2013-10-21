@@ -8,10 +8,11 @@
     <script src="dashboard.js"></script>
     <script language="JavaScript">
 
-// Create a config.js file containing three variables:
-// GHLogin: the GitHub login to use
+// Create a config.js file containing these variables:
+// GHLogin:    the GitHub login to use
 // GHPassword: the password
-// org: user/organization you want to list modules for
+// org:        user/organization you want to list modules for
+// refresh:    how often to refresh entries automatically (in milliseconds), optional
 var github = new Github({
   username: GHLogin,
   password: GHPassword

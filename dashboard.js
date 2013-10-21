@@ -35,6 +35,11 @@ function updateRepo(name) {
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
   r.show(updateOriginStatus);
+
+  // auto-refresh
+  if (refresh > 0) {
+    setTimeout(function() {updateRepo(name)}, refresh);
+  }
 }
 
 function updateCell(repo, cell, value) {
