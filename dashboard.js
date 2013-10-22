@@ -94,12 +94,12 @@ function updateCell(repo, cell, value) {
   repoLine.getElementsByClassName('r_'+cell)[0].innerHTML = value;
 }
 
-dashboard['r_origin'] = function (name) {
+dashboard.r_origin = function(name) {
   repositories[name]['repo'].show(updateOriginStatus);
 }
 
 // managed by r_origin
-dashboard['r_status'] = function (name) {}
+dashboard.r_status = function(name) {}
 
 function updateOriginStatus(err, repo) {
   info = repositories[repo.name]['info'];
@@ -144,14 +144,14 @@ function updateForkStatus(repo) {
   });
 }
 
-dashboard['r_hooks'] = function updateHooksStatus(name) {
+dashboard.r_hooks = function(name) {
   var r = repositories[name]['repo'];
   r.listHooks(function(err, hooks) {
     console.log(hooks);
   });
 }
 
-dashboard['r_pulls'] = function updatePullsStatus(name) {
+dashboard.r_pulls = function(name) {
   var r = repositories[name]['repo'];
   r.listPulls('open', function(err, pulls) {
     html = '<a href="https://github.com/'+org+'/'+name+'/pulls">'+pulls.length+'</a>';
@@ -159,7 +159,7 @@ dashboard['r_pulls'] = function updatePullsStatus(name) {
   });
 }
 
-dashboard['r_travis'] = function updateTravisStatus(name) {
+dashboard.r_travis = function(name) {
   info = repositories[name]['info'];
   var travis_url;
   if (info.private) {
