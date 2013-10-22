@@ -40,11 +40,9 @@ function loadPage(token) {
   for (var i=0; i<headElems.length; i++) {
     classes = headElems[i].className.split(' ');
     for (var j=0; j<classes.length; j++) {
-      if (classes[j].match(/^r_/) &&
-          classes[j] != 'r_name' &&
-          classes[j] != 'r_refresh') {
-            repoHeads.push(classes[j]);
-          }
+      if (classes[j].match(/^r_/)) {
+        repoHeads.push(classes[j]);
+      }
     }
   }
 
@@ -103,13 +101,13 @@ function listRepos(err, repos) {
 
 function initRepo(name, heads) {
   info = repositories[name]['info'];
-  html = '<td class="r_name"><a href="'+info.html_url+'">'+name+'</a></td>';
+  html = '<td><a href="'+info.html_url+'">'+name+'</a></td>';
 
   for (i=0; i<heads.length; i++) {
     html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
   }
 
-  html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
+  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
 }
 
