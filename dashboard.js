@@ -65,10 +65,7 @@ function loadPage(token) {
     reposTableBody.appendChild(spinner);
     gh_user.userRepos(account, listRepos);
   } else {
-    var err = document.createElement('tr');
-    err.setAttribute('id', 'error');
-    err.innerHTML = '<td colspan="'+(repoHeads.length+2)+'">You must specify a user or org.</td>';
-    reposTableBody.appendChild(err);
+    dispError('You must specify a user or org.');
   }
 }
 
@@ -85,10 +82,17 @@ function getParameterByName(name) {
 }
 
 function listRepos(err, repos) {
+  var spinner = document.getElementById('spinner');
+
+  if (err) {
+    spinner.style.display = 'none';
+    dispError('Error '+err.request.status+' ('+err.request.statusText+'): '+err.request.responseText);
+    return;
+  }
+
   var reposTable = document.getElementById('repositories');
   var reposTableBody = document.getElementsByTagName('tbody')[0];
 
-  var spinner = document.getElementById('spinner');
   spinner.style.display = 'none';
 
   for (var i=0; i<repos.length; i++) {
@@ -179,4 +183,13 @@ function readCookie(name) {
 
 function eraseCookie(name) {
   createCookie(name,"",-1);
+}
+
+function dispError(err) {
+  var reposTable = document.getElementById('repositories');
+  var reposTableBody = document.getElementsByTagName('tbody')[0];
+  var errElem = document.createElement('tr');
+  errElem.setAttribute('id', 'error');
+  errElem.innerHTML = '<td colspan="'+(repoHeads.length+2)+'">'+err+'</td>';
+  reposTableBody.appendChild(errElem);
 }
