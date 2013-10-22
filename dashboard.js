@@ -98,7 +98,7 @@ function listRepos(err, repos) {
 
 function initRepo(name, heads) {
   info = repositories[name]['info'];
-  html = '<td class="r_name">'+name+'</td>';
+  html = '<td class="r_name"><a href="'+info.html_url+'">'+name+'</a></td>';
 
   for (i=0; i<heads.length; i++) {
     html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
@@ -151,7 +151,7 @@ function updateOriginStatus(err, repo) {
 
 function updateOrigin(repo) {
   var p = repo.parent;
-  updateCell(repo.name, 'origin', p.owner.login+'/'+p.name);
+  updateCell(repo.name, 'origin', '<a href="'+p.html_url+'">'+p.owner.login+'/'+p.name+'</a>');
 }
 
 function updateForkStatus(repo) {
