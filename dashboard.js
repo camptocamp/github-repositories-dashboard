@@ -24,8 +24,8 @@ window.authComplete = function(token) {
 }
 
 function loadPage(token) {
-  document.getElementById('auth_link').style.visibility = 'hidden';
-  document.getElementById('auth_remove').style.visibility = 'visible';
+  document.getElementById('auth_link').style.display = 'none';
+  document.getElementById('auth_remove').style.display = 'block';
   github = new Github({
     token: token
   });
