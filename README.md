@@ -8,6 +8,15 @@ This is a simple dashboard to monitor your Github repositories. In a few words:
 * It supports auto-refresh;
 * It supports plugins to easily extend the cells in the report.
 
+## Query string parameters
+
+This dashboard takes various query parameters:
+
+* `org`: an organization to list repositories for;
+* `user`: alternatively, a username to list repositories for;
+* `refresh`: the refresh rate (defaults to 10 minutes);
+* `refresh_randomize`: a factor by which to randomize refresh for elements (defaults to 0.5, making refresh times between 10 minutes and 15 minutes by default).
+
 
 ## Plugins
 
