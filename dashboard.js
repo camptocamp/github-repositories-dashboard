@@ -6,22 +6,33 @@ var refresh = getParameterByName('refresh') || 60000; // 1 minutes
 var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to 2 minutes
 var filter = getParameterByName('filter');
 
-// Create a config.js file containing these variables:
-// GHLogin:           the GitHub login to use
-// GHPassword:        the password
-var github = new Github({
-  username: GHLogin,
-  password: GHPassword
-});
-
+var github;
+var dashboard = new Object();
 var repositories = {};
 var repoHeads = [];
-var user = github.getUser();
-user.orgRepos(org, listRepos);
 
-var dashboard = new Object();
+
+// Main
+var token = readCookie('access_token');
+if (token) loadPage(token);
 
 /* Dashboard functions */
+
+// Called by authentication callback
+window.authComplete = function(token) {
+  createCookie('access_token', token, 1);
+  loadPage(token);
+}
+
+function loadPage(token) {
+  document.getElementById('auth_link').style.visibility = 'hidden';
+  github = new Github({
+    token: token
+  });
+
+  var user = github.getUser();
+  user.orgRepos(org, listRepos);
+}
 
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -176,4 +187,31 @@ dashboard.r_travis = function(name) {
   }
   html = '<a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a>';
   updateCell(name, 'travis', html);
+}
+
+// Cookies
+
+function createCookie(name,value,days) {
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+  }
+  else var expires = "";
+  document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+function eraseCookie(name) {
+  createCookie(name,"",-1);
 }
