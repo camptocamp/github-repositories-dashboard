@@ -12,9 +12,12 @@ var github = new Github({
 });
 
 var repositories = {};
+var repoHeads = [];
 var user = github.getUser();
 user.orgRepos(org, listRepos);
 
+
+var dashboard = new Object();
 
 /* Dashboard functions */
 
@@ -22,7 +25,6 @@ function listRepos(err, repos) {
   var reposTable = document.getElementById('repositories');
 
   // Get heads
-  var heads = [];
   var headElems = reposTable.getElementsByTagName('th');
   for (var i=0; i<headElems.length; i++) {
     classes = headElems[i].className.split(' ');
@@ -30,7 +32,7 @@ function listRepos(err, repos) {
       if (classes[j].match(/^r_/) &&
           classes[j] != 'r_name' &&
           classes[j] != 'r_refresh') {
-            heads.push(classes[j]);
+            repoHeads.push(classes[j]);
           }
     }
   }
@@ -44,7 +46,7 @@ function listRepos(err, repos) {
     repositories[name] = {};
     repositories[name]['info'] = repos[i];
 
-    initRepo(name, heads);
+    initRepo(name, repoHeads);
     updateRepo(name);
   }
 
@@ -66,12 +68,11 @@ function initRepo(name, heads) {
 function updateRepo(name) {
   var r = github.getRepo(org, name);
   repositories[name]['repo'] = r;
-  r.show(updateOriginStatus);
 
-  // check hooks
-  //updateHooksStatus(name);
-  updatePullsStatus(name);
-  updateTravisStatus(name);
+  // refresh all cells
+  for (i=0; i<repoHeads.length; i++) {
+    dashboard[repoHeads[i]](name);
+  }
 
   // auto-refresh
   if (refresh > 0) {
@@ -84,6 +85,13 @@ function updateCell(repo, cell, value) {
   var repoLine = document.getElementById(repo);
   repoLine.getElementsByClassName('r_'+cell)[0].innerHTML = value;
 }
+
+dashboard['r_origin'] = function (name) {
+  repositories[name]['repo'].show(updateOriginStatus);
+}
+
+// managed by r_origin
+dashboard['r_status'] = function (name) {}
 
 function updateOriginStatus(err, repo) {
   info = repositories[repo.name]['info'];
@@ -128,14 +136,14 @@ function updateForkStatus(repo) {
   });
 }
 
-function updateHooksStatus(name) {
+dashboard['r_hooks'] = function updateHooksStatus(name) {
   var r = repositories[name]['repo'];
   r.listHooks(function(err, hooks) {
     console.log(hooks);
   });
 }
 
-function updatePullsStatus(name) {
+dashboard['r_pulls'] = function updatePullsStatus(name) {
   var r = repositories[name]['repo'];
   r.listPulls('open', function(err, pulls) {
     html = '<a href="https://github.com/'+org+'/'+name+'/pulls">'+pulls.length+'</a>';
@@ -143,7 +151,7 @@ function updatePullsStatus(name) {
   });
 }
 
-function updateTravisStatus(name) {
+dashboard['r_travis'] = function updateTravisStatus(name) {
   info = repositories[name]['info'];
   var travis_url;
   if (info.private) {
