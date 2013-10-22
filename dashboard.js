@@ -1,36 +1,64 @@
+/* Main */
+
+// Create a config.js file containing these variables:
+// GHLogin:           the GitHub login to use
+// GHPassword:        the password
+// org:               user/organization you want to list modules for
+// refresh:           how often to refresh entries automatically (in milliseconds), optional
+// refresh_randomize: a number, adding a random factor to auto-refresh to even out refreshing. Use 0 to have no randomization of auto-refresh
+var github = new Github({
+  username: GHLogin,
+  password: GHPassword
+});
+
+var repositories = {};
+var user = github.getUser();
+user.orgRepos(org, listRepos);
+
+
 /* Dashboard functions */
 
 function listRepos(err, repos) {
   var reposTable = document.getElementById('repositories');
+
+  // Get heads
+  var heads = [];
+  var headElems = reposTable.getElementsByTagName('th');
+  for (var i=0; i<headElems.length; i++) {
+    classes = headElems[i].className.split(' ');
+    for (var j=0; j<classes.length; j++) {
+      if (classes[j].match(/^r_/) &&
+          classes[j] != 'r_name' &&
+          classes[j] != 'r_refresh') {
+            heads.push(classes[j]);
+          }
+    }
+  }
+
   for (var i=0; i<repos.length; i++) {
     var name = repos[i].name;
-    if (! name.match(/^puppet-/)) continue;
+    //if (! name.match(/^puppet-/)) continue;
     var repoLine = document.createElement('tr');
     repoLine.setAttribute('id', name);
     reposTable.appendChild(repoLine);
     repositories[name] = {};
     repositories[name]['info'] = repos[i];
-    initRepo(name);
+
+    initRepo(name, heads);
     updateRepo(name);
   }
+
   //sorttable.makeSortable(reposTable);
 }
 
-function initRepo(name) {
+function initRepo(name, heads) {
   info = repositories[name]['info'];
   html = '<td class="r_name">'+name+'</td>';
-  html += '<td class="r_origin"><img src="images/loading.gif" width="30px" /></td>';
-  html += '<td class="r_status"><img src="images/loading.gif" width="30px" /></td>';
-  html += '<td class="r_pulls"><img src="images/loading.gif" width="30px" /></td>';
-  var travis_url;
-  if (info.private) {
-    travis_url = 'https://magnum.travis-ci.com/';
-  } else {
-    travis_url = 'https://travis-ci.org/';
+
+  for (i=0; i<heads.length; i++) {
+    html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
   }
-  html += '<td class="r_travis"><a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a></td>';
-  // forge: version on the forge, if any (see https://projects.puppetlabs.com/projects/module-site/wiki/Server-api)
-  // hooks: which hooks are configured
+
   html += '<td class="r_refresh"><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
 }
