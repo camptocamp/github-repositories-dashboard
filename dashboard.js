@@ -4,6 +4,7 @@
 var org = getParameterByName('org') || 'camptocamp';
 var refresh = getParameterByName('refresh') || 600000; // 10 minutes
 var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to 15 minutes
+var filter = getParameterByName('filter');
 
 // Create a config.js file containing these variables:
 // GHLogin:           the GitHub login to use
@@ -48,7 +49,10 @@ function listRepos(err, repos) {
 
   for (var i=0; i<repos.length; i++) {
     var name = repos[i].name;
-    //if (! name.match(/^puppet-/)) continue;
+    if (filter) {
+      filterReg = new RegExp(filter);
+      if (! name.match(filterReg)) continue;
+    }
     var repoLine = document.createElement('tr');
     repoLine.setAttribute('id', name);
     reposTableBody.appendChild(repoLine);
