@@ -31,6 +31,28 @@ function loadPage(token) {
   });
 
   var user = github.getUser();
+
+  var reposTable = document.getElementById('repositories');
+  var reposTableBody = document.getElementsByTagName('tbody')[0];
+
+  // Get heads
+  var headElems = reposTable.getElementsByTagName('th');
+  for (var i=0; i<headElems.length; i++) {
+    classes = headElems[i].className.split(' ');
+    for (var j=0; j<classes.length; j++) {
+      if (classes[j].match(/^r_/) &&
+          classes[j] != 'r_name' &&
+          classes[j] != 'r_refresh') {
+            repoHeads.push(classes[j]);
+          }
+    }
+  }
+
+  var spinner = document.createElement('tr');
+  spinner.setAttribute('id', 'spinner');
+  spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading.gif" /></td>';
+  reposTableBody.appendChild(spinner);
+
   user.orgRepos(org, listRepos);
 }
 
@@ -50,18 +72,8 @@ function listRepos(err, repos) {
   var reposTable = document.getElementById('repositories');
   var reposTableBody = document.getElementsByTagName('tbody')[0];
 
-  // Get heads
-  var headElems = reposTable.getElementsByTagName('th');
-  for (var i=0; i<headElems.length; i++) {
-    classes = headElems[i].className.split(' ');
-    for (var j=0; j<classes.length; j++) {
-      if (classes[j].match(/^r_/) &&
-          classes[j] != 'r_name' &&
-          classes[j] != 'r_refresh') {
-            repoHeads.push(classes[j]);
-          }
-    }
-  }
+  var spinner = document.getElementById('spinner');
+  spinner.style.display = 'none';
 
   for (var i=0; i<repos.length; i++) {
     var name = repos[i].name;
