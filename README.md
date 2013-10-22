@@ -1,5 +1,25 @@
-Puppet Modules Dashboard
-=========================
+Github Repositories Dashboard
+==============================
+
+This is a simple dashboard to monitor your Github repositories. In a few words:
+
+* It is written in Javascript, using [`github.js`](https://github.com/michael/github);
+* It uses Github's API with OAuth in order to increase the amount of allowed requests;
+* It supports auto-refresh;
+* It supports plugins to easily extend the cells in the report.
+
+## Setting up OAuth
+
+This dashboard uses Github's OAuth to:
+
+* increase the amount of allowed requests to Github's API;
+* access private repositories in the dashboard.
+
+### Setting up in the HTML file
+
+### Setting up the server-side callback
+
+OAuth on Github requires a server-side script to perform a final request and get an authentication token. This step cannot be achieved in Ajax.
 
 
 ## Contributing
