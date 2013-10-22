@@ -1,8 +1,11 @@
 <?php
+  $client_id = 'YOUR_CLIENT_ID';
+  $client_secret = 'YOUR_CLIENT_SECRET';
+
   // Data to send
   $postData = array(
-    'client_id' => 'YOUR_CLIENT_ID',
-    'client_secret' => 'YOUR_CLIENT_SECRET',
+    'client_id' => $client_id,
+    'client_secret' => $client_secret,
     'code' => $_GET['code']
   );
 
