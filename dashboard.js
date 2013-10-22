@@ -2,8 +2,8 @@
 
 // query params
 var org = getParameterByName('org') || 'camptocamp';
-var refresh = getParameterByName('refresh') || 600000; // 10 minutes
-var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to 15 minutes
+var refresh = getParameterByName('refresh') || 60000; // 1 minutes
+var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to 2 minutes
 var filter = getParameterByName('filter');
 
 // Create a config.js file containing these variables:
