@@ -1,7 +1,8 @@
 /* Main */
 
 // query params
-var org = getParameterByName('org') || 'camptocamp';
+var org = getParameterByName('org');
+var user = getParameterByName('user');
 var refresh = getParameterByName('refresh') || 60000; // 1 minutes
 var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to 2 minutes
 var filter = getParameterByName('filter');
@@ -10,6 +11,7 @@ var github;
 var dashboard = new Object();
 var repositories = {};
 var repoHeads = [];
+var account = org || user;
 
 // Main
 var token = readCookie('access_token');
@@ -30,7 +32,7 @@ function loadPage(token) {
     token: token
   });
 
-  var user = github.getUser();
+  var gh_user = github.getUser();
 
   var reposTable = document.getElementById('repositories');
   var reposTableBody = document.getElementsByTagName('tbody')[0];
@@ -55,9 +57,19 @@ function loadPage(token) {
   var spinner = document.createElement('tr');
   spinner.setAttribute('id', 'spinner');
   spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading.gif" /></td>';
-  reposTableBody.appendChild(spinner);
 
-  user.orgRepos(org, listRepos);
+  if (org) {
+    reposTableBody.appendChild(spinner);
+    gh_user.orgRepos(account, listRepos);
+  } else if (user) {
+    reposTableBody.appendChild(spinner);
+    gh_user.userRepos(account, listRepos);
+  } else {
+    var err = document.createElement('tr');
+    err.setAttribute('id', 'error');
+    err.innerHTML = '<td colspan="'+(repoHeads.length+2)+'">You must specify a user or org.</td>';
+    reposTableBody.appendChild(err);
+  }
 }
 
 function authRemove() {
@@ -113,7 +125,7 @@ function initRepo(name, heads) {
 }
 
 function updateRepo(name) {
-  var r = github.getRepo(org, name);
+  var r = github.getRepo(account, name);
   repositories[name]['repo'] = r;
 
   // refresh all cells

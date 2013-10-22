@@ -6,6 +6,6 @@ dashboard.travis = function(name) {
   } else {
     travis_url = 'https://travis-ci.org/';
   }
-  html = '<a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a>';
+  html = '<a href="'+travis_url+account+'/'+name+'"><img src="'+travis_url+account+'/'+name+'.png#'+new Date().getTime()+'" /></a>';
   updateCell(name, 'travis', html);
 }

@@ -27,7 +27,7 @@ function updateForkStatus(repo) {
     var r = repositories[repo.name]['repo'];
 
     // get diff
-    r.compare(p.owner.login+':master', org+':master', function(err, diff) {
+    r.compare(p.owner.login+':master', account+':master', function(err, diff) {
       if (err) {
         updateCell(repo.name, 'status', 'ERR');
       } else {
