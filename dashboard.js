@@ -63,7 +63,9 @@ function listRepos(err, repos) {
     updateRepo(name);
   }
 
-  //sorttable.makeSortable(reposTable);
+  sorttable.makeSortable(reposTable);
+  var nameElem = reposTable.getElementsByTagName('th')[0];
+  sorttable.innerSortFunction.apply(nameElem);
 }
 
 function initRepo(name, heads) {
