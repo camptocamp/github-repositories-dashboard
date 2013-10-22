@@ -1,11 +1,13 @@
 /* Main */
 
+// query params
+var org = getParameterByName('org') || 'camptocamp';
+var refresh = getParameterByName('refresh') || 600000; // 10 minutes
+var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to 15 minutes
+
 // Create a config.js file containing these variables:
 // GHLogin:           the GitHub login to use
 // GHPassword:        the password
-// org:               user/organization you want to list modules for
-// refresh:           how often to refresh entries automatically (in milliseconds), optional
-// refresh_randomize: a number, adding a random factor to auto-refresh to even out refreshing. Use 0 to have no randomization of auto-refresh
 var github = new Github({
   username: GHLogin,
   password: GHPassword
@@ -16,10 +18,16 @@ var repoHeads = [];
 var user = github.getUser();
 user.orgRepos(org, listRepos);
 
-
 var dashboard = new Object();
 
 /* Dashboard functions */
+
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
 function listRepos(err, repos) {
   var reposTable = document.getElementById('repositories');
