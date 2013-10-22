@@ -96,17 +96,32 @@ function listRepos(err, repos) {
 
   spinner.style.display = 'none';
 
-  for (var i=0; i<repos.length; i++) {
-    var name = repos[i].name;
-    if (filter) {
+  // Filter repos
+  var filtered_repos = [];
+  if (filter) {
+    for (var i=0; i<repos.length; i++) {
+      var name = repos[i].name;
       filterReg = new RegExp(filter);
       if (! name.match(filterReg)) continue;
+      filtered_repos.push(repos[i]);
     }
+  } else {
+    filtered_repos = repos;
+  }
+
+  // Update total
+  var total = document.getElementById('total');
+  if (total) {
+    total.innerHTML = filtered_repos.length+' repositories';
+  }
+
+  for (var i=0; i<filtered_repos.length; i++) {
+    var name = filtered_repos[i].name;
     var repoLine = document.createElement('tr');
     repoLine.setAttribute('id', name);
     reposTableBody.appendChild(repoLine);
     repositories[name] = {};
-    repositories[name]['info'] = repos[i];
+    repositories[name]['info'] = filtered_repos[i];
 
     initRepo(name, repoHeads);
     updateRepo(name);
