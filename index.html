@@ -1,23 +1,10 @@
 <html>
   <head>
     <link href="style.css" rel="stylesheet" type="text/css">
-    <script src="lib/github/lib/base64.js"></script>
-    <script src="lib/github/lib/underscore-min.js"></script>
-    <script src="lib/github/github.js"></script>
-    <script src="lib/sorttable.js"></script>
-    <script src="config.js"></script>
-    <script src="dashboard.js"></script>
-    <script language="JavaScript">
-
-document.title = 'Puppet Modules Dashboard for '+org;
-
-dashboard.r_githubsync = function(name) {
-  updateCell(name, 'githubsync', 'hello, '+name);
-}
-    </script>
   </head>
   <body>
-    <a id="auth_link" href="https://github.com/login/oauth/authorize?client_id=5935ad3c089cd7b4464f" target=_blank>Authenticate with Github</a>
+    <a id="auth_link" href="https://github.com/login/oauth/authorize?client_id=5935ad3c089cd7b4464f" target=_blank>Sign in with Github</a>
+    <a id="auth_remove" style="visibility:hidden;" href="javascript:authRemove();">Sign out</a>
     <table id='repositories'>
       <thead>
         <tr>
@@ -35,5 +22,20 @@ dashboard.r_githubsync = function(name) {
       <tbody>
       </tbody>
     </table>
+
+    <script src="lib/github/lib/base64.js"></script>
+    <script src="lib/github/lib/underscore-min.js"></script>
+    <script src="lib/github/github.js"></script>
+    <script src="lib/sorttable.js"></script>
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
+    <script language="JavaScript">
+
+document.title = 'Puppet Modules Dashboard for '+org;
+
+dashboard.r_githubsync = function(name) {
+  updateCell(name, 'githubsync', 'hello, '+name);
+}
+    </script>
   </body>
 </html>

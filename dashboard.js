@@ -11,7 +11,6 @@ var dashboard = new Object();
 var repositories = {};
 var repoHeads = [];
 
-
 // Main
 var token = readCookie('access_token');
 if (token) loadPage(token);
@@ -26,12 +25,18 @@ window.authComplete = function(token) {
 
 function loadPage(token) {
   document.getElementById('auth_link').style.visibility = 'hidden';
+  document.getElementById('auth_remove').style.visibility = 'visible';
   github = new Github({
     token: token
   });
 
   var user = github.getUser();
   user.orgRepos(org, listRepos);
+}
+
+function authRemove() {
+  eraseCookie('access_token');
+  window.location.reload();
 }
 
 function getParameterByName(name) {
