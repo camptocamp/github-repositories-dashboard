@@ -4,6 +4,7 @@
     <script src="github/lib/base64.js"></script>
     <script src="github/lib/underscore-min.js"></script>
     <script src="github/github.js"></script>
+    <script src="lib/sorttable.js"></script>
     <script src="config.js"></script>
     <script src="dashboard.js"></script>
     <script language="JavaScript">
@@ -27,7 +28,7 @@ user.orgRepos(org, listRepos);
   </head>
   <body>
     <a href="https://github.com/login/oauth/authorize?client_id=5935ad3c089cd7b4464f">Authenticate with Github</a>
-    <table>
+    <table class="sortable">
       <tbody id='repositories'>
         <tr>
           <th class="r_name">Module name</th>

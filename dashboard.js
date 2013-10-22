@@ -13,6 +13,7 @@ function listRepos(err, repos) {
     initRepo(name);
     updateRepo(name);
   }
+  //sorttable.makeSortable(reposTable);
 }
 
 function initRepo(name) {
