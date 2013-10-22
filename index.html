@@ -9,10 +9,11 @@
     <script language="JavaScript">
 
 // Create a config.js file containing these variables:
-// GHLogin:    the GitHub login to use
-// GHPassword: the password
-// org:        user/organization you want to list modules for
-// refresh:    how often to refresh entries automatically (in milliseconds), optional
+// GHLogin:           the GitHub login to use
+// GHPassword:        the password
+// org:               user/organization you want to list modules for
+// refresh:           how often to refresh entries automatically (in milliseconds), optional
+// refresh_randomize: a number, adding a random factor to auto-refresh to even out refreshing. Use 0 to have no randomization of auto-refresh
 var github = new Github({
   username: GHLogin,
   password: GHPassword
@@ -25,6 +26,7 @@ user.orgRepos(org, listRepos);
     </script>
   </head>
   <body>
+    <a href="https://github.com/login/oauth/authorize?client_id=5935ad3c089cd7b4464f">Authenticate with Github</a>
     <table>
       <tbody id='repositories'>
         <tr>

@@ -46,7 +46,9 @@ function updateRepo(name) {
 
   // auto-refresh
   if (refresh > 0) {
-    setTimeout(function() {updateRepo(name)}, refresh);
+    refresh_time = refresh + Math.random()*refresh*refresh_randomize;
+    console.log(refresh_time);
+    setTimeout(function() {updateRepo(name)}, refresh_time);
   }
 }
 
