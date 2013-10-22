@@ -31,6 +31,7 @@ function getParameterByName(name) {
 
 function listRepos(err, repos) {
   var reposTable = document.getElementById('repositories');
+  var reposTableBody = document.getElementsByTagName('tbody')[0];
 
   // Get heads
   var headElems = reposTable.getElementsByTagName('th');
@@ -50,7 +51,7 @@ function listRepos(err, repos) {
     //if (! name.match(/^puppet-/)) continue;
     var repoLine = document.createElement('tr');
     repoLine.setAttribute('id', name);
-    reposTable.appendChild(repoLine);
+    reposTableBody.appendChild(repoLine);
     repositories[name] = {};
     repositories[name]['info'] = repos[i];
 
