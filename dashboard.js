@@ -86,7 +86,8 @@ function listRepos(err, repos) {
 
   if (err) {
     spinner.style.display = 'none';
-    dispError('Error '+err.request.status+' ('+err.request.statusText+'): '+err.request.responseText);
+    var err_msg = JSON.parse(err.request.responseText, function(key, value) { return value;});
+    dispError('Error '+err.request.status+' ('+err.request.statusText+'): '+err_msg.message);
     return;
   }
 
