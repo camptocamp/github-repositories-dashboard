@@ -1,4 +1,4 @@
-dashboard.r_travis = function(name) {
+dashboard.travis = function(name) {
   info = repositories[name]['info'];
   var travis_url;
   if (info.private) {

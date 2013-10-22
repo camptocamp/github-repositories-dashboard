@@ -1,9 +1,9 @@
-dashboard.r_origin = function(name) {
+dashboard.origin = function(name) {
   repositories[name]['repo'].show(updateOriginStatus);
 }
 
 // managed by r_origin
-dashboard.r_status = function(name) {}
+dashboard.status = function(name) {}
 
 function updateOriginStatus(err, repo) {
   updateOrigin(repo);

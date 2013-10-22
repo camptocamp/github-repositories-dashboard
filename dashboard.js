@@ -40,7 +40,7 @@ function loadPage(token) {
   for (var i=0; i<headElems.length; i++) {
     classes = headElems[i].className.split(' ');
     for (var j=0; j<classes.length; j++) {
-      if (classes[j].match(/^r_/)) {
+      if (classes[j].match(/^plugin:/)) {
         repoHeads.push(classes[j]);
       }
     }
@@ -48,7 +48,8 @@ function loadPage(token) {
 
   // Load plugins
   for (var i=0; i<repoHeads.length; i++) {
-    loadPlugin(repoHeads[i]);
+    var plugin = repoHeads[i].replace('plugin:', '');
+    loadPlugin(plugin);
   }
 
   var spinner = document.createElement('tr');
@@ -117,7 +118,8 @@ function updateRepo(name) {
 
   // refresh all cells
   for (i=0; i<repoHeads.length; i++) {
-    dashboard[repoHeads[i]](name);
+    var plugin = repoHeads[i].replace('plugin:', '');
+    dashboard[plugin](name);
   }
 
   // auto-refresh
@@ -129,12 +131,11 @@ function updateRepo(name) {
 
 function updateCell(repo, cell, value) {
   var repoLine = document.getElementById(repo);
-  repoLine.getElementsByClassName('r_'+cell)[0].innerHTML = value;
+  repoLine.getElementsByClassName('plugin:'+cell)[0].innerHTML = value;
 }
 
 // Plugins
 function loadPlugin(plugin) {
-  console.log("loading plugin "+plugin);
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'plugins/'+plugin+'.js'; 
