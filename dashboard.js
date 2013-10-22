@@ -48,6 +48,11 @@ function loadPage(token) {
     }
   }
 
+  // Load plugins
+  for (var i=0; i<repoHeads.length; i++) {
+    loadPlugin(repoHeads[i]);
+  }
+
   var spinner = document.createElement('tr');
   spinner.setAttribute('id', 'spinner');
   spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading.gif" /></td>';
@@ -129,83 +134,13 @@ function updateCell(repo, cell, value) {
   repoLine.getElementsByClassName('r_'+cell)[0].innerHTML = value;
 }
 
-dashboard.r_origin = function(name) {
-  repositories[name]['repo'].show(updateOriginStatus);
-}
-
-// managed by r_origin
-dashboard.r_status = function(name) {}
-
-function updateOriginStatus(err, repo) {
-  updateOrigin(repo);
-  updateForkStatus(repo);
-}
-
-function updateOrigin(repo) {
-  info = repositories[repo.name]['info'];
-  if (info.fork) {
-    var p = repo.parent;
-    updateCell(repo.name, 'origin', '<a href="'+p.html_url+'">'+p.owner.login+'/'+p.name+'</a>');
-  } else {
-    updateCell(repo.name, 'origin', 'N/A');
-  }
-}
-
-function updateForkStatus(repo) {
-  info = repositories[repo.name]['info'];
-  if (info.fork) {
-    var p = repo.parent;
-    var r = repositories[repo.name]['repo'];
-
-    // get diff
-    r.compare(p.owner.login+':master', org+':master', function(err, diff) {
-      if (err) {
-        updateCell(repo.name, 'status', 'ERR');
-      } else {
-        var diff_msg;
-        if (diff.status == 'ahead') {
-          diff_msg = diff.status + ' ('+diff.ahead_by+' commits)';
-        } else if (diff.status == 'behind') {
-          diff_msg = diff.status + ' ('+diff.behind_by+' commits)';
-        } else if (diff.status == 'diverged') {
-          diff_msg = diff.status + ' ('+diff.behind_by+' behind and '+diff.ahead_by+' ahead)';
-        } else {
-          diff_msg = diff.status;
-        }
-        html = '<a href="'+diff.html_url+'">'+diff_msg+'</a>';
-        updateCell(repo.name, 'status', html);
-      }
-    });
-  } else {
-    updateCell(repo.name, 'status', 'N/A');
-  }
-}
-
-dashboard.r_hooks = function(name) {
-  var r = repositories[name]['repo'];
-  r.listHooks(function(err, hooks) {
-    console.log(hooks);
-  });
-}
-
-dashboard.r_pulls = function(name) {
-  var r = repositories[name]['repo'];
-  r.listPulls('open', function(err, pulls) {
-    html = '<a href="https://github.com/'+org+'/'+name+'/pulls">'+pulls.length+'</a>';
-    updateCell(name, 'pulls', html);
-  });
-}
-
-dashboard.r_travis = function(name) {
-  info = repositories[name]['info'];
-  var travis_url;
-  if (info.private) {
-    travis_url = 'https://magnum.travis-ci.com/';
-  } else {
-    travis_url = 'https://travis-ci.org/';
-  }
-  html = '<a href="'+travis_url+org+'/'+name+'"><img src="'+travis_url+org+'/'+name+'.png#'+new Date().getTime()+'" /></a>';
-  updateCell(name, 'travis', html);
+// Plugins
+function loadPlugin(plugin) {
+  console.log("loading plugin "+plugin);
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'plugins/'+plugin+'.js'; 
+  document.body.appendChild(script);
 }
 
 // Cookies
