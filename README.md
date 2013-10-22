@@ -15,7 +15,8 @@ This dashboard takes various query parameters:
 * `org`: an organization to list repositories for;
 * `user`: alternatively, a username to list repositories for;
 * `refresh`: the refresh rate (defaults to 10 minutes);
-* `refresh_randomize`: a factor by which to randomize refresh for elements (defaults to 0.5, making refresh times between 10 minutes and 15 minutes by default).
+* `refresh_randomize`: a factor by which to randomize refresh for elements (defaults to 0.5, making refresh times between 10 minutes and 15 minutes by default);
+* `filter`: a filter to apply to repositories names.
 
 
 ## Plugins
