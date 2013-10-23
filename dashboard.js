@@ -148,11 +148,13 @@ function updateRepo(name) {
   var r = github.getRepo(account, name);
   repositories[name]['repo'] = r;
 
-  // refresh all cells
-  for (i=0; i<repoHeads.length; i++) {
-    var plugin = repoHeads[i].replace('plugin:', '');
-    dashboard[plugin](name);
-  }
+  r.show(function(err, repo) {
+    // refresh all cells
+    for (i=0; i<repoHeads.length; i++) {
+      var plugin = repoHeads[i].replace('plugin:', '');
+      dashboard[plugin](repo);
+    }
+  });
 
   // auto-refresh
   if (refresh > 0) {

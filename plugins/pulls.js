@@ -1,7 +1,7 @@
-dashboard.pulls = function(name) {
-  var r = repositories[name]['repo'];
+dashboard.pulls = function(repo) {
+  var r = repositories[repo.name]['repo'];
   r.listPulls('open', function(err, pulls) {
-    html = '<a href="https://github.com/'+account+'/'+name+'/pulls">'+pulls.length+'</a>';
-    updateCell(name, 'pulls', html);
+    html = '<a href="https://github.com/'+account+'/'+repo.name+'/pulls">'+pulls.length+'</a>';
+    updateCell(repo.name, 'pulls', html);
   });
 }
