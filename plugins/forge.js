@@ -18,7 +18,7 @@ function updateForge(name, contents) {
     if (err) {
       updateCell(name, 'forge', 'ERR');
     } else {
-      var html = '<a href="'+res.file+'">'+res.version+'</a>';
+      var html = '<a href="'+res.file+'">http://forge.puppetlabs.com'+res.version+'</a>';
       updateCell(name, 'forge', html);
     }
   });
