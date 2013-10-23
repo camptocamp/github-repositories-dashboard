@@ -33,7 +33,12 @@ Therefore, all you need to do to add a new plugin is:
 * Add a `dashboard.pluginname()` function to that file;
 * Add a `th` element to the HTML skeleton to indicate where the column should be.
 
-The `dashboard.pluginname()` function should call the `updateCell()` function to fill in the cells.
+The `dashboard.pluginname()` function should call the `updateCell()` function to fill in the cells, with the following arguments:
+
+* `repo`: the name of the repository (line) to update;
+* `cell`: the name of the cell (plugin name) to update;
+* `value`: the value (include HTML) to insert in the cell;
+* `state` (optional): a state for the cell, among `ok`, `warn`, `err` and `unknown`. If any cell sends this parameter, a global state will be computed for the line, setting a class with the state value for the `tr` element. The default style maps these states to background colors (`ok`=`lightgreen`, `warn`=`khaki`, `err`=`lightcoral`).
 
 
 ## Setting up OAuth
