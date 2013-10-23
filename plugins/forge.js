@@ -13,7 +13,7 @@ function updateForge(name, contents) {
   var matches = contents.match(/name\s+(?:["'])(\S+)(?:["\'])/);
   var module = matches[1];
   var m = module.split('-');
-  // Now get info (version num and url) from the Forge REST API
+  // forge.puppetlabs.com doesn't allow CORS, use a proxy
   _request('GET', 'http://www.corsproxy.com/forge.puppetlabs.com/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', null, function(err, res) {
     if (err) {
       updateCell(name, 'forge', 'ERR');
