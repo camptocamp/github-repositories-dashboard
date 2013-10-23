@@ -147,6 +147,8 @@ function initRepo(name, heads) {
 function updateRepo(name) {
   var r = github.getRepo(account, name);
   repositories[name]['repo'] = r;
+  var repoLine = document.getElementById(name);
+  computeState(repoLine, 'unknown', true);
 
   r.show(function(err, repo) {
     // refresh all cells
@@ -174,7 +176,7 @@ function updateCell(repo, cell, value, state) {
   computeState(repoLine, state);
 }
 
-function computeState(line, newState) {
+function computeState(line, newState, force) {
   var oldState = 'unknown';
   var classes = line.className.split(' ');
   if (classes.length > 0) {
@@ -185,7 +187,12 @@ function computeState(line, newState) {
         break;
       }
     }
-    var state = worstState(oldState, newState);
+    var state;
+    if (force) {
+      state = newState;
+    } else {
+      state = worstState(oldState, newState);
+    }
     classes.push(state);
     line.className = classes.join(' ');
   } else {
