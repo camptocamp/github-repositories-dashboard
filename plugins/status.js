@@ -6,7 +6,7 @@ dashboard.status = function(repo) {
     // get diff
     r.compare(p.owner.login+':master', account+':master', function(err, diff) {
       if (err) {
-        updateCell(repo.name, 'status', 'ERR');
+        updateCell(repo.name, 'status', 'ERR', 'err');
       } else {
         var diff_msg;
         var state = 'ok';
