@@ -10,7 +10,7 @@ dashboard.forge = function(repo) {
 };
 
 function updateForge(name, contents) {
-  var matches = contents.match(/name\s+(?:["'])(\S+)(?:["\'])/);
+  var matches = contents.match(/name\s+(?:["'])([^"']+)(?:["\'])/);
   var module = matches[1];
   var m = module.split('-');
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
