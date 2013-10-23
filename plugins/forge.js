@@ -16,7 +16,7 @@ function updateForge(name, contents) {
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
   _request('GET', 'http://www.corsproxy.com/forge.puppetlabs.com/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', null, function(err, res) {
     if (err) {
-      updateCell(name, 'forge', 'ERR', 'err');
+      updateCell(name, 'forge', 'ERR', 'warn');
     } else {
       var html = '<a href="http://forge.puppetlabs.com'+res.file+'">'+res.version+'</a>';
       updateCell(name, 'forge', html, 'ok');
