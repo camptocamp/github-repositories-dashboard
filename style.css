@@ -69,3 +69,17 @@ th.specalt {
   font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
   color: #797268;
 }
+
+/* States */
+tr.ok td {
+  background: lightgreen;
+}
+
+tr.warn td {
+  background: khaki;
+}
+
+tr.err td {
+  background: lightcoral;
+}
+
