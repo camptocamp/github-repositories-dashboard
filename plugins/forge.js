@@ -15,8 +15,12 @@ function updateForge(name, contents) {
   var m = module.split('-');
   // Now get info (version num and url) from the Forge REST API
   _request('GET', 'http://www.corsproxy.com/forge.puppetlabs.com/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', null, function(err, res) {
-    var html = '<a href="'+res.file+'">'+res.version+'</a>';
-    updateCell(name, 'forge', html);
+    if (err) {
+      updateCell(name, 'forge', 'ERR');
+    } else {
+      var html = '<a href="'+res.file+'">'+res.version+'</a>';
+      updateCell(name, 'forge', html);
+    }
   });
 };
 
