@@ -163,9 +163,51 @@ function updateRepo(name) {
   }
 }
 
-function updateCell(repo, cell, value) {
+function updateCell(repo, cell, value, state) {
   var repoLine = document.getElementById(repo);
-  repoLine.getElementsByClassName('plugin:'+cell)[0].innerHTML = value;
+  var cell = repoLine.getElementsByClassName('plugin:'+cell)[0];
+  cell.innerHTML = value;
+  if (state) {
+    var classes = cell.className.replace(/err|warn|ok/, '');
+    cell.className = classes+' '+state;
+  }
+  computeState(repoLine, state);
+}
+
+function computeState(line, newState) {
+  var oldState = 'unknown';
+  var classes = line.className.split(' ');
+  if (classes.length > 0) {
+    for (var i=0; i<classes.length; i++) {
+      if (classes[i].match(/err|warn|ok/)) {
+        oldState = classes[i];
+        classes.splice(i, 1);
+        break;
+      }
+    }
+    var state = worstState(oldState, newState);
+    classes.push(state);
+    line.className = classes.join(' ');
+  } else {
+    line.className = newState;
+  }
+}
+
+function worstState(oldState, newState) {
+  switch (newState) {
+    case 'err':
+      return 'err';
+      break;
+    case 'warn':
+      if (oldState != 'err') return 'warn';
+      break;
+    case 'ok':
+      if (oldState != 'err' && oldState != 'warn') return 'ok';
+      break;
+    default:
+      return oldState;
+      break;
+  }
 }
 
 // Plugins
