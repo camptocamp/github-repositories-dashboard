@@ -15,8 +15,7 @@
           <th class="plugin:status">Status</th>
           <th class="plugin:pulls">Pull Requests</th>
           <th class="plugin:travis">Travis CI</th>
-          <!--<th class="plugin:githubsync">GitHub Sync</th>-->
-          <!--<th class="plugin:forge">Forge</th>-->
+          <th class="plugin:forge">Forge</th>
           <!--<th class="plugin:hooks">Github Hooks</th>-->
           <th>Refresh</th>
         </tr>
@@ -34,10 +33,6 @@
     <script language="JavaScript">
 
 document.title = 'Puppet Modules Dashboard for '+org;
-
-dashboard.r_githubsync = function(name) {
-  updateCell(name, 'githubsync', 'hello, '+name);
-}
     </script>
   </body>
 </html>
