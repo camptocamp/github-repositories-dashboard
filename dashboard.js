@@ -197,16 +197,12 @@ function worstState(oldState, newState) {
   switch (newState) {
     case 'err':
       return 'err';
-      break;
     case 'warn':
       if (oldState != 'err') return 'warn';
-      break;
     case 'ok':
       if (oldState != 'err' && oldState != 'warn') return 'ok';
-      break;
     default:
       return oldState;
-      break;
   }
 }
 
