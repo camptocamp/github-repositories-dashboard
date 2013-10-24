@@ -179,6 +179,7 @@ function updateCell(repo, cell, value, state) {
 function computeState(line, newState, force) {
   var oldState = 'unknown';
   var classes = line.className.split(' ');
+  var state;
   if (classes.length > 0) {
     for (var i=0; i<classes.length; i++) {
       if (classes[i].match(/unknown|err|warn|ok/)) {
@@ -187,7 +188,6 @@ function computeState(line, newState, force) {
         break;
       }
     }
-    var state;
     if (force) {
       state = newState;
     } else {
@@ -196,8 +196,12 @@ function computeState(line, newState, force) {
     classes.push(state);
     line.className = classes.join(' ');
   } else {
+    state = newState;
     line.className = newState;
   }
+  // Use the refresh column to sort by state
+  var cells = line.getElementsByTagName('td');
+  cells[cells.length-1].setAttribute('sorttable_customkey', state);
 }
 
 function worstState(oldState, newState) {
@@ -211,6 +215,13 @@ function worstState(oldState, newState) {
     default:
       return oldState;
   }
+}
+
+function sortByState() {
+  var reposTable = document.getElementById('repositories');
+  var heads = reposTable.getElementsByTagName('th');
+  var refreshTH = heads[heads.length-1];
+  sorttable.innerSortFunction.apply(refreshTH, []);
 }
 
 // Plugins
