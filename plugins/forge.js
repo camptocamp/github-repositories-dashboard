@@ -14,7 +14,7 @@ function updateForge(name, contents) {
   var module = matches[1];
   var m = module.split('-');
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
-  _request('GET', 'http://www.corsproxy.com/forge.puppetlabs.com/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', null, function(err, res) {
+  forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
     if (err) {
       updateCell(name, 'forge', 'ERR', 'warn');
     } else {
@@ -24,29 +24,30 @@ function updateForge(name, contents) {
   });
 };
 
-function _request(method, path, data, cb, raw, sync) {
+function forgeAPICall(path, use_corsproxy, cb) {
+  console.log('getting '+path);
   function getURL() {
-    var url = path.indexOf('//') >= 0 ? path : API_URL + path;
-    return url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+    if (use_corsproxy) {
+      return 'http://www.corsproxy.com/forge.puppetlabs.com'+path+'?'+ (new Date()).getTime();
+    } else {
+      return 'http://forge.puppetlabs.com'+path+'?'+ (new Date()).getTime();
+    }
   }
 
   var xhr = new XMLHttpRequest();
-  if (!raw) {xhr.dataType = "json";}
-
-  xhr.open(method, getURL(), !sync);
-  if (!sync) {
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status >= 200 && this.status < 300 || this.status === 304) {
-          cb(null, raw ? this.responseText : this.responseText ? JSON.parse(this.responseText) : true, this);
-        } else {
-          cb({path: path, request: this, error: this.status});
-        }
+  
+  xhr.open('GET', getURL(), true);
+  console.log("url="+getURL());
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      if (this.status >= 200 && this.status < 300 || this.status === 304) {
+        cb(null, this.responseText ? JSON.parse(this.responseText) : true, this);
+      } else {
+        cb({path: path, request: this, error: this.status});
       }
     }
   };
   xhr.setRequestHeader('Accept','application/vnd.github.raw+json');
   xhr.setRequestHeader('Content-Type','application/json;charset=UTF-8');
-  data ? xhr.send(JSON.stringify(data)) : xhr.send();
-  if (sync) return xhr.response;
+  xhr.send();
 };
