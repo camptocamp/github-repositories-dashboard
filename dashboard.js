@@ -140,7 +140,7 @@ function initRepo(name, heads) {
     html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
   }
 
-  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.jpg" width="20px" /></a></td>';
+  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.png" width="20px" /></a></td>';
   document.getElementById(name).innerHTML = html;
 }
 
