@@ -56,7 +56,7 @@ function loadPage(token) {
 
   var spinner = document.createElement('tr');
   spinner.setAttribute('id', 'spinner');
-  spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading.gif" /></td>';
+  spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading_bar.gif" /></td>';
 
   if (org) {
     reposTableBody.appendChild(spinner);
