@@ -45,7 +45,6 @@ function forgeAPICall(path, use_corsproxy, cb) {
       }
     }
   };
-  xhr.setRequestHeader('Accept','application/vnd.github.raw+json');
   xhr.setRequestHeader('Content-Type','application/json;charset=UTF-8');
   xhr.send();
 };
