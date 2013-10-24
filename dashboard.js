@@ -201,7 +201,21 @@ function computeState(line, newState, force) {
   }
   // Use the refresh column to sort by state
   var cells = line.getElementsByTagName('td');
-  cells[cells.length-1].setAttribute('sorttable_customkey', state);
+  cells[cells.length-1].setAttribute('sorttable_customkey', stateToNum(state));
+}
+
+// TODO: give a numerical weight to each line
+function stateToNum(state) {
+  switch (state) {
+    case 'err':
+      return 0;
+    case 'warn':
+      return 5;
+    case 'ok':
+      return 10;
+    default:
+      return 20;
+  }
 }
 
 function worstState(oldState, newState) {
