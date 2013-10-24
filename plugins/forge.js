@@ -25,7 +25,6 @@ function updateForge(name, contents) {
 };
 
 function forgeAPICall(path, use_corsproxy, cb) {
-  console.log('getting '+path);
   function getURL() {
     if (use_corsproxy) {
       return 'http://www.corsproxy.com/forge.puppetlabs.com'+path+'?'+ (new Date()).getTime();
@@ -37,7 +36,6 @@ function forgeAPICall(path, use_corsproxy, cb) {
   var xhr = new XMLHttpRequest();
   
   xhr.open('GET', getURL(), true);
-  console.log("url="+getURL());
   xhr.onreadystatechange = function () {
     if (this.readyState == 4) {
       if (this.status >= 200 && this.status < 300 || this.status === 304) {
