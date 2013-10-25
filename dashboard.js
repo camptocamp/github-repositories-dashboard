@@ -174,6 +174,7 @@ function updateCell(repo, cell, value, state) {
     cell.className = classes+' '+state;
   }
   computeState(repoLine, state);
+  refreshSort();
 }
 
 function computeState(line, newState, force) {
@@ -236,6 +237,19 @@ function sortByState() {
   var heads = reposTable.getElementsByTagName('th');
   var refreshTH = heads[heads.length-1];
   sorttable.innerSortFunction.apply(refreshTH, []);
+}
+
+function refreshSort() {
+  var reposTable = document.getElementById('repositories');
+  var heads = reposTable.getElementsByTagName('th');
+  for (var i=0; i<heads.length; i++) {
+    console.log("checking head "+i);
+    if (heads[i].className.match(/\bsorttable_([a-z0-9_]+)\b/)) {
+      console.log("sorting by head "+i);
+      sorttable.innerSortFunction.apply(heads[i], []);
+      return;
+    }
+  }
 }
 
 // Plugins
