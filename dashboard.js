@@ -8,6 +8,8 @@ var refresh_randomize = getParameterByName('refresh_randomize') || 0.5; // up to
 var filter = getParameterByName('filter');
 
 var github;
+var gh_user;
+var reposFunc;
 var dashboard = new Object();
 var repositories = {};
 var repoHeads = [];
@@ -32,7 +34,7 @@ function loadPage(token) {
     token: token
   });
 
-  var gh_user = github.getUser();
+  gh_user = github.getUser();
 
   var reposTable = document.getElementById('repositories');
   var reposTableBody = document.getElementsByTagName('tbody')[0];
@@ -60,13 +62,19 @@ function loadPage(token) {
 
   if (org) {
     reposTableBody.appendChild(spinner);
+    reposFunc = gh_user.orgRepos;
     gh_user.orgRepos(account, listRepos);
   } else if (user) {
     reposTableBody.appendChild(spinner);
+    reposFunc = gh_user.userRepos;
     gh_user.userRepos(account, listRepos);
   } else {
     dispError('You must specify a user or org.');
   }
+
+  sorttable.makeSortable(reposTable);
+  var nameElem = reposTable.getElementsByTagName('th')[0];
+  sorttable.innerSortFunction.apply(nameElem);
 }
 
 function authRemove() {
@@ -98,15 +106,15 @@ function listRepos(err, repos) {
 
   // Filter repos
   var filtered_repos = [];
-  if (filter) {
-    for (var i=0; i<repos.length; i++) {
-      var name = repos[i].name;
+  for (var i=0; i<repos.length; i++) {
+    var name = repos[i].name;
+    if (filter) {
       filterReg = new RegExp(filter);
       if (! name.match(filterReg)) continue;
-      filtered_repos.push(repos[i]);
     }
-  } else {
-    filtered_repos = repos;
+    filtered_repos.push(name);
+    repositories[name] = {};
+    repositories[name]['info'] = repos[i];
   }
 
   // Update total
@@ -116,20 +124,33 @@ function listRepos(err, repos) {
   }
 
   for (var i=0; i<filtered_repos.length; i++) {
-    var name = filtered_repos[i].name;
-    var repoLine = document.createElement('tr');
-    repoLine.setAttribute('id', name);
-    reposTableBody.appendChild(repoLine);
-    repositories[name] = {};
-    repositories[name]['info'] = filtered_repos[i];
+    var name = filtered_repos[i];
+    var existing = document.getElementById(name);
+    if (! existing) {
+      var repoLine = document.createElement('tr');
+      repoLine.setAttribute('id', name);
+      reposTableBody.appendChild(repoLine);
 
-    initRepo(name, repoHeads);
-    updateRepo(name);
+      initRepo(name, repoHeads);
+      updateRepo(name);
+    }
+  }
+  filtered_repos.sort();
+
+  // Remove obsolete lines
+  var listedRepos = reposTableBody.getElementsByTagName('tr');
+  for (var i=0; i<listedRepos.length; i++) {
+    var name = listedRepos[i].id;
+    if (filtered_repos.indexOf(name) < 0) {
+      listedRepos[i].style.display = 'none';
+    }
   }
 
-  sorttable.makeSortable(reposTable);
-  var nameElem = reposTable.getElementsByTagName('th')[0];
-  sorttable.innerSortFunction.apply(nameElem);
+  // auto-refresh
+  if (refresh > 0) {
+    refresh_time = refresh + Math.random()*refresh*refresh_randomize;
+    setTimeout(function() {reposFunc(account, listRepos)}, refresh_time);
+  }
 }
 
 function initRepo(name, heads) {
