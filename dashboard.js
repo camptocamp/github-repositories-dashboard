@@ -259,6 +259,10 @@ function sortByState() {
   sorttable.innerSortFunction.apply(refreshTH, []);
 }
 
+function refreshList() {
+  reposFunc(account, listRepos);
+}
+
 function refreshSort() {
   var reposTable = document.getElementById('repositories');
   var heads = reposTable.getElementsByTagName('th');
