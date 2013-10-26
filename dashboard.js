@@ -73,8 +73,7 @@ function loadPage(token) {
   }
 
   sorttable.makeSortable(reposTable);
-  var nameElem = reposTable.getElementsByTagName('th')[0];
-  sorttable.innerSortFunction.apply(nameElem);
+  sortByState();
 }
 
 function authRemove() {
