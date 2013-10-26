@@ -142,6 +142,7 @@ function listRepos(err, repos) {
     var name = listedRepos[i].id;
     if (filtered_repos.indexOf(name) < 0) {
       listedRepos[i].style.display = 'none';
+      refreshSort();
     }
   }
 
