@@ -243,7 +243,6 @@ function refreshSort() {
   var reposTable = document.getElementById('repositories');
   var heads = reposTable.getElementsByTagName('th');
   for (var i=0; i<heads.length; i++) {
-    console.log("i="+i);
     if (heads[i].className.match(/\bsorttable_([a-z0-9]+)\b/)) {
       // first sort by name
       sorttable.innerSortFunction.apply(heads[0], []);
