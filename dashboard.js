@@ -202,6 +202,9 @@ function computeState(line, newState, force) {
   var oldState = 'unknown';
   var classes = line.className.split(' ');
   var state;
+  var cells = line.getElementsByTagName('td');
+  var refreshCell = cells[cells.length-1];
+  var stateWeight = parseInt(refreshCell.getAttribute('sorttable_customkey')) || 0;
   if (classes.length > 0) {
     for (var i=0; i<classes.length; i++) {
       if (classes[i].match(/unknown|err|warn|ok/)) {
@@ -212,8 +215,10 @@ function computeState(line, newState, force) {
     }
     if (force) {
       state = newState;
+      stateWeight = stateToNum(newState);
     } else {
       state = worstState(oldState, newState);
+      stateWeight += stateToNum(newState);
     }
     classes.push(state);
     line.className = classes.join(' ');
@@ -222,21 +227,20 @@ function computeState(line, newState, force) {
     line.className = newState;
   }
   // Use the refresh column to sort by state
-  var cells = line.getElementsByTagName('td');
-  cells[cells.length-1].setAttribute('sorttable_customkey', stateToNum(state));
+  refreshCell.setAttribute('sorttable_customkey', stateWeight);
 }
 
 // TODO: give a numerical weight to each line
 function stateToNum(state) {
   switch (state) {
     case 'err':
-      return 0;
+      return 1000;
     case 'warn':
-      return 5;
+      return 100;
     case 'ok':
       return 10;
     default:
-      return 20;
+      return 0;
   }
 }
 
@@ -258,6 +262,8 @@ function sortByState() {
   var heads = reposTable.getElementsByTagName('th');
   var refreshTH = heads[heads.length-1];
   sorttable.innerSortFunction.apply(refreshTH, []);
+  // Twice, to sort by reverse order
+  sorttable.innerSortFunction.apply(refreshTH, []);
 }
 
 function refreshList() {
@@ -268,16 +274,16 @@ function refreshSort() {
   var reposTable = document.getElementById('repositories');
   var heads = reposTable.getElementsByTagName('th');
   for (var i=0; i<heads.length; i++) {
-    if (heads[i].className.match(/\bsorttable_([a-z0-9]+)\b/)) {
-      // first sort by name
-      sorttable.innerSortFunction.apply(heads[0], []);
-      sorttable.innerSortFunction.apply(heads[i], []);
-      break;
-    } else if (heads[i].className.match(/\bsorttable_([a-z0-9]+)_reverse\b/)) {
+    if (heads[i].className.match(/\bsorttable_([a-z0-9]+)_reverse\b/)) {
       // first sort by name
       sorttable.innerSortFunction.apply(heads[0], []);
       // sort twice to reverse
       sorttable.innerSortFunction.apply(heads[i], []);
+      sorttable.innerSortFunction.apply(heads[i], []);
+      break;
+    } else if (heads[i].className.match(/\bsorttable_([a-z0-9]+)\b/)) {
+      // first sort by name
+      sorttable.innerSortFunction.apply(heads[0], []);
       sorttable.innerSortFunction.apply(heads[i], []);
       break;
     }
