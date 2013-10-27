@@ -228,6 +228,7 @@ function computeState(line, newState, force) {
   }
   // Use the refresh column to sort by state
   refreshCell.setAttribute('sorttable_customkey', stateWeight);
+  refreshCell.getElementsByTagName('img')[0].setAttribute('title', 'score: '+stateWeight);
 }
 
 // TODO: give a numerical weight to each line
