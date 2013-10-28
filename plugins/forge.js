@@ -14,16 +14,18 @@ function updateForge(name, contents) {
   var module = matches[1];
   var m = module.split('-');
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
-  forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
-    if (m[0] == account) {
+  if (m[0] == account) {
+    forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
       if (err) {
         updateCell(name, 'forge', 'ERR', 'warn');
       } else {
         var html = '<a href="http://forge.puppetlabs.com'+res.file+'">'+res.version+'</a>';
         updateCell(name, 'forge', html, 'ok');
       }
-    }
-  });
+    });
+  } else {
+    updateCell(name, 'forge', 'N/A');
+  }
 };
 
 function forgeAPICall(path, use_corsproxy, cb) {
