@@ -17,10 +17,10 @@ function updateForge(name, contents) {
   if (m[0] == account) {
     forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
       if (err) {
-        updateCell(name, 'forge', 'ERR', 'warn');
+        updateCell(name, 'forge', 'ERR');
       } else {
         var html = '<a href="http://forge.puppetlabs.com'+res.file+'">'+res.version+'</a>';
-        updateCell(name, 'forge', html, 'ok');
+        updateCell(name, 'forge', html);
       }
     });
   } else {
