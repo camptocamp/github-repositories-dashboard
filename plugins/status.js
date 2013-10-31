@@ -2,9 +2,10 @@ dashboard.status = function(repo) {
   if (repo.fork) {
     var p = repo.parent;
     var r = repositories[repo.name]['repo'];
+    var b = repo.default_branch;
 
     // get diff
-    r.compare(p.owner.login+':master', account+':master', function(err, diff) {
+    r.compare(p.owner.login+':'+b, account+':'+b, function(err, diff) {
       if (err) {
         updateCell(repo.name, 'status', 'ERR', 'err');
       } else {
