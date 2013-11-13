@@ -1,0 +1,7 @@
+// This is a sample file for the 'in_charge' plugin
+{
+  "puppet-postgresql": "mcanevet",
+  "puppet-augeas": "raphink",
+  "puppet-augeasproviders": "raphink",
+  "puppet-apache": "mcanevet"
+}
