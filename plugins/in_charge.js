@@ -10,7 +10,7 @@ dashboard.in_charge = function(repo) {
         var username = in_charge[repo.name];
         gh_user.show(username, function(err, user) {
           if (err) {
-            html = 'Unknown: '+username;
+            html = 'Unknown user: '+username;
             status = 'err';
           } else {
             var avatar = '<img src="'+user.avatar_url+'" width="30px" />';
