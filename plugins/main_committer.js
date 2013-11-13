@@ -4,10 +4,12 @@ dashboard.main_committer = function(repo) {
     var authors = {};
     var main_committer;
     for (var i=0; i<commits.length; i++) {
-      var author_obj = commits[i].author;
-      var login = author_obj.login;
-      authors[login] = authors[login] || author_obj;
-      authors[login].count = authors[login].count+1 || 1;
+      if (commits[i].author) {
+        var author_obj = commits[i].author;
+        var login = author_obj.login;
+        authors[login] = authors[login] || author_obj;
+        authors[login].count = authors[login].count+1 || 1;
+      }
     }
 
     for (var author in authors) {
