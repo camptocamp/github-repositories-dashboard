@@ -6,7 +6,7 @@ dashboard.in_charge = function(repo) {
     } else {
       var html;
       var status;
-      if (repo.name in in_charge) {
+      if (repo.name in in_charge && in_charge[repo.name]) {
         var username = in_charge[repo.name];
         gh_user.show(username, function(err, user) {
           if (err) {
