@@ -1,3 +1,4 @@
+// See data/in_charge.json for a sample file
 dashboard.in_charge = function(repo) {
   getInChargeList(function(err, in_charge) {
     if (err) {
