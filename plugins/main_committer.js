@@ -24,7 +24,7 @@ dashboard.main_committer = function(repo) {
     console.log(main_committer);
     var avatar = '<img src="'+main_committer.avatar_url+'" width="30px" />';
     var title = main_committer.count+' recent commits';
-    var html = avatar+' <a href="'+main_committer.html_url+'" title="'+title+'">'+main_committer.login+'</a>';
+    var html = '<a href="'+main_committer.html_url+'" title="'+title+'">'+avatar+'</a>';
     updateCell(repo.name, 'main_committer', html);
   });
 }
