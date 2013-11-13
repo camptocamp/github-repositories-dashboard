@@ -8,9 +8,9 @@ dashboard.last_committer = function(repo) {
 
     if (commit.author) {
       var avatar = '<img src="'+commit.author.avatar_url+'" width="30px" />';
-      var html = '<a href="'+commit.author.html_url+'">'+avatar+'</a>';
+      html = '<a href="'+commit.author.html_url+'">'+avatar+'</a>';
     } else {
-      message = 'UNKNOWN';
+      html = 'UNKNOWN';
       status = 'warn';
     }
 
