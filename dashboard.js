@@ -45,6 +45,11 @@ function loadPage(token) {
   var reposTable = document.getElementById('repositories');
   var reposTableBody = document.getElementsByTagName('tbody')[0];
 
+  // Remove all lines in body
+  while (reposTableBody.hasChildNodes()) {
+    reposTableBody.removeChild(reposTableBody.lastChild);
+  }
+
   // Get heads
   var headElems = reposTable.getElementsByTagName('th');
   for (var i=0; i<headElems.length; i++) {
