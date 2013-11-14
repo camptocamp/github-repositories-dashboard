@@ -21,7 +21,6 @@ dashboard.main_committer = function(repo) {
         main_committer = authors[author];
       }
     }
-    console.log(main_committer);
     var avatar = '<img src="'+main_committer.avatar_url+'" width="30px" />';
     var title = main_committer.count+' recent commits';
     var html = '<a href="'+main_committer.html_url+'" title="'+title+'">'+avatar+'</a>';
