@@ -70,6 +70,10 @@ th.specalt {
   color: #797268;
 }
 
+#header a {
+  padding: 0.5em;
+}
+
 /* States */
 tr.ok td {
   background: lightgreen;

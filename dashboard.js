@@ -176,7 +176,7 @@ function initRepo(name, heads) {
     html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
   }
 
-  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><img src="images/refresh.png" width="20px" /></a></td>';
+  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><i class="fa fa-refresh fa-2x"></i></a></td>';
   document.getElementById(name).innerHTML = html;
 }
 
@@ -251,7 +251,7 @@ function computeState(line, newState, force) {
   }
   // Use the refresh column to sort by state
   refreshCell.setAttribute('sorttable_customkey', stateWeight);
-  refreshCell.getElementsByTagName('img')[0].setAttribute('title', 'score: '+stateWeight);
+  refreshCell.getElementsByTagName('i')[0].setAttribute('title', 'score: '+stateWeight);
 }
 
 // TODO: give a numerical weight to each line
