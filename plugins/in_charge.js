@@ -17,7 +17,7 @@ dashboard.in_charge = function(repo) {
             html = '<a href="'+user.html_url+'">'+avatar+'</a>';
             status = 'ok';
           }
-          updateCell(repo.name, 'in_charge', html, status);
+          updateCell(repo.name, 'in_charge', html, status, username);
         });
       } else {
         updateCell(repo.name, 'in_charge', 'NOONE', 'warn');
