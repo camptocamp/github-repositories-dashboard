@@ -31,7 +31,7 @@ window.authComplete = function(token) {
 function loadPage(token) {
   if (token) {
     document.getElementById('auth_link').style.display = 'none';
-    document.getElementById('auth_remove').style.display = 'block';
+    document.getElementById('auth_remove').style.display = 'inline-block';
     github = new Github({
       token: token
     });
