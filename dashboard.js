@@ -187,13 +187,16 @@ function updateRepo(name) {
   }
 }
 
-function updateCell(repo, cell, value, state) {
+function updateCell(repo, cell, value, state, customkey) {
   var repoLine = document.getElementById(repo);
   var cell = repoLine.getElementsByClassName('plugin:'+cell)[0];
   cell.innerHTML = value;
   if (state) {
     var classes = cell.className.replace(/unknown|err|warn|ok/, '');
     cell.className = classes+' '+state;
+  }
+  if (customkey) {
+    cell.setAttribute('sorttable_customkey', customkey);
   }
   computeState(repoLine, state);
   refreshSortTimeout();
