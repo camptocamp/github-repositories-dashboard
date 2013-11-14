@@ -201,7 +201,7 @@ function updateCell(repo, cell, value, state) {
 
 function refreshSortTimeout () {
   clearTimeout(sortTimeout);
-  sortTimeout = setTimeout(refreshSort(), 500);
+  sortTimeout = setTimeout(function() {refreshSort()}, 500);
 }
 
 function computeState(line, newState, force) {
