@@ -18,7 +18,7 @@ var sortTimeout;
 
 // Main
 var token = readCookie('access_token');
-if (token) loadPage(token);
+loadPage(token);
 
 /* Dashboard functions */
 
@@ -29,11 +29,16 @@ window.authComplete = function(token) {
 }
 
 function loadPage(token) {
-  document.getElementById('auth_link').style.display = 'none';
-  document.getElementById('auth_remove').style.display = 'block';
-  github = new Github({
-    token: token
-  });
+  if (token) {
+    document.getElementById('auth_link').style.display = 'none';
+    document.getElementById('auth_remove').style.display = 'block';
+    github = new Github({
+      token: token
+    });
+  } else {
+    // It's ok not to be authenticated
+    github = new Github({});
+  }
 
   gh_user = github.getUser();
 
