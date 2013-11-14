@@ -14,6 +14,7 @@ var dashboard = new Object();
 var repositories = {};
 var repoHeads = [];
 var account = org || user;
+var sortTimeout;
 
 // Main
 var token = readCookie('access_token');
@@ -195,7 +196,12 @@ function updateCell(repo, cell, value, state) {
     cell.className = classes+' '+state;
   }
   computeState(repoLine, state);
-  refreshSort();
+  refreshSortTimeout();
+}
+
+function refreshSortTimeout () {
+  clearTimeout(sortTimeout);
+  sortTimeout = setTimeout(refreshSort(), 500);
 }
 
 function computeState(line, newState, force) {
