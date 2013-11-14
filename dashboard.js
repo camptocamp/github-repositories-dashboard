@@ -11,8 +11,8 @@ var github;
 var gh_user;
 var reposFunc;
 var dashboard = new Object();
-var repositories = {};
-var repoHeads = [];
+var repositories;
+var repoHeads;
 var account = org || user;
 var sortTimeout;
 
@@ -49,6 +49,10 @@ function loadPage(token) {
   while (reposTableBody.hasChildNodes()) {
     reposTableBody.removeChild(reposTableBody.lastChild);
   }
+
+  // Initialize
+  repositories = {};
+  repoHeads = [];
 
   // Get heads
   var headElems = reposTable.getElementsByTagName('th');
