@@ -1,5 +1,5 @@
 body {
-  font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+  font: normal 10px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
   color: #4f6b72;
   background: #E6EAE9;
 }
@@ -30,7 +30,7 @@ th {
   letter-spacing: 2px;
   text-transform: uppercase;
   text-align: left;
-  padding: 6px 6px 6px 12px;
+  padding: 1px 5px 1px 5px;
   background: #CAE8EA url(images/bg_header.jpg) no-repeat;
 }
 
