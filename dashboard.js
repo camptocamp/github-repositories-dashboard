@@ -173,7 +173,7 @@ function initRepo(name, heads) {
   html = '<td><a href="'+info.html_url+'">'+name+'</a></td>';
 
   for (i=0; i<heads.length; i++) {
-    html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
+    html += '<td class="'+heads[i]+'"><i class="fa fa-spinner fa-spin"></i></td>';
   }
 
   html += '<td><a href="javascript:updateRepo(\''+name+'\')"><i class="fa fa-refresh fa-1g"></i></a></td>';
