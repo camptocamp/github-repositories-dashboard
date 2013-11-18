@@ -176,7 +176,7 @@ function initRepo(name, heads) {
     html += '<td class="'+heads[i]+'"><img src="images/loading.gif" width="30px" /></td>';
   }
 
-  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><i class="fa fa-refresh fa-2x"></i></a></td>';
+  html += '<td><a href="javascript:updateRepo(\''+name+'\')"><i class="fa fa-refresh fa-1g"></i></a></td>';
   document.getElementById(name).innerHTML = html;
 }
 
