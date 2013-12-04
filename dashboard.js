@@ -18,7 +18,9 @@ var sortTimeout;
 
 // Main
 var token = readCookie('access_token');
-loadPage(token);
+if (token) {
+  loadPage(token);
+}
 
 /* Dashboard functions */
 
