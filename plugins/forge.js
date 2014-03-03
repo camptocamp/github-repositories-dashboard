@@ -24,7 +24,7 @@ function updateForge(name, contents) {
       }
     });
   } else {
-    updateCell(name, 'forge', 'N/A');
+    updateCell(name, 'forge', 'N/A', 'ok');
   }
 };
 
