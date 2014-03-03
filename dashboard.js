@@ -264,9 +264,9 @@ function stateToNum(state) {
     case 'warn':
       return 100;
     case 'ok':
-      return 10;
-    default:
       return 0;
+    default:
+      return 10;
   }
 }
 
