@@ -4,7 +4,7 @@ dashboard.travis = function(repo) {
   if (repo.private) {
     updateTravisCell(repo.name, 'https://magnum.travis-ci.com/', '', status);
   } else {
-    travisAPICall('/repos/'+account+'/'+repo.name, function(err, res) {
+    travisAPICall('/repos/'+account+'/'+repo.name+'/branches/'+repo.default_branch, function(err, res) {
       var msg;
       if (err) {
         msg = 'Error while getting Travis status';
