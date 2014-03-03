@@ -55,7 +55,6 @@ function travisAPICall(path, use_corsproxy, cb) {
   }
   xhr.setRequestHeader('Accept','application/json; version=2');
   xhr.setRequestHeader('Content-Type','application/json;charset=UTF-8');
-  xhr.setRequestHeader('User-Agent','github-repositories-dashboard/0.1');
   xhr.send();
 }
 
