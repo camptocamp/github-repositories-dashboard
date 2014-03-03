@@ -10,7 +10,9 @@ dashboard.travis = function(repo) {
         msg = 'Error while getting Travis status';
         status = 'unknown';
       } else {
-        msg = 'Last build state: '+res.branch.state+' (build #'+res.branch.number+')';
+        var date = new Date(res.branch.started_at);
+        var date_str = 'on '+date.toLocaleDateString()+' at '+date.toLocaleTime();
+        msg = 'Last build state: '+res.branch.state+' (build #'+res.branch.number+date_str')';
         switch (res.branch.state) {
           case 'passed':
             status = 'ok';
