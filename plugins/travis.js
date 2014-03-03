@@ -11,7 +11,7 @@ dashboard.travis = function(repo) {
         status = 'unknown';
       } else {
         var date = new Date(res.branch.started_at);
-        var date_str = 'on '+date.toLocaleDateString()+' at '+date.toLocaleTime();
+        var date_str = 'on '+date.toLocaleDateString()+' at '+date.toLocaleTimeString();
         msg = 'Last build state: '+res.branch.state+' (build #'+res.branch.number+date_str+')';
         switch (res.branch.state) {
           case 'passed':
