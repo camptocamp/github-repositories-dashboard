@@ -10,8 +10,8 @@ dashboard.travis = function(repo) {
         msg = 'Error while getting Travis status';
         status = 'warn';
       } else {
-        msg = 'Last build state: '+res.repo.last_build_state;
-        switch (res.repo.last_build_state) {
+        msg = 'Last build state: '+res.branch.state+' (build #'+res.branch.number+')';
+        switch (res.branch.state) {
           case 'passed':
             status = 'ok';
             break;
