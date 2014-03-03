@@ -206,11 +206,7 @@ function updateRepo(name) {
 function updateCell(repo, cell, value, state, customkey) {
   var repoLine = document.getElementById(repo);
   var cell = repoLine.getElementsByClassName('plugin:'+cell)[0];
-  if (state) {
-    cell.innerHTML = value+' (state='+state+')';
-  } else {
-    cell.innerHTML = value;
-  }
+  cell.innerHTML = value;
   if (state) {
     var classes = cell.className.replace(/unknown|err|warn|ok/, '');
     cell.className = classes+' '+state;
