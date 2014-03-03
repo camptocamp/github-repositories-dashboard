@@ -4,7 +4,7 @@ dashboard.travis = function(repo) {
   if (repo.private) {
     updateTravisCell(repo.name, 'https://magnum.travis-ci.com/', '', status);
   } else {
-    travisAPICall('/repos/'+account+'/'+repo.name+'/branches/'+repo.default_branch, function(err, res) {
+    travisAPICall('/repos/'+account+'/'+repo.name+'/branches/'+repo.default_branch, true, function(err, res) {
       var msg;
       if (err) {
         msg = 'Error while getting Travis status';
@@ -35,9 +35,14 @@ function updateTravisCell(name, travis_url, msg, status) {
   updateCell(name, 'travis', html, status);
 }
 
-function travisAPICall(path, cb) {
+function travisAPICall(path, use_corsproxy, cb) {
   var xhr = new XMLHttpRequest();
-  var url = 'https://api.travis-ci.org'+path+'?'+ (new Date()).getTime(); 
+  var url;
+  if (use_corsproxy) {
+    url = 'http://www.corsproxy.com/api.travis-ci.org'+path+'?'+ (new Date()).getTime(); 
+  } else {
+    url = 'https://api.travis-ci.org'+path+'?'+ (new Date()).getTime(); 
+  }
   xhr.open('GET', url, true);
   xhr.onreadystatechange = function () {
     if (this.readyState == 4) {
