@@ -30,7 +30,7 @@ dashboard.travis = function(repo) {
 
 function updateTravisCell(name, travis_url, msg, status) {
   html = '<a href="'+travis_url+account+'/'+name+'">';
-  html += '<img src="'+travis_url+account+'/'+name+'.png#'+new Date().getTime()+'" title="'+msg+'" />';
+  html += '<img src="'+travis_url+account+'/'+name+'.png#'+new Date().getTime()+'" title="'+msg+' (state='+status+')" />';
   html += '</a>';
   updateCell(name, 'travis', html, status);
 }
