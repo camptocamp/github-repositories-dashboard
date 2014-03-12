@@ -264,7 +264,7 @@ function refreshTotalScore() {
   for (var i=0; i<reposLines.length; i++) {
     var cells = reposLines[i].getElementsByTagName('td');
     var scoreCell = cells[cells.length-1];
-    var score = parseInt(scoreCelle.getAttribute('sorttable_customkey')) || 0;
+    var score = parseInt(scoreCell.getAttribute('sorttable_customkey')) || 0;
     totalScore += score;
   }
 
