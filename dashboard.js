@@ -254,6 +254,22 @@ function computeState(line, newState, force) {
   // Use the refresh column to sort by state
   refreshCell.setAttribute('sorttable_customkey', stateWeight);
   refreshCell.getElementsByTagName('i')[0].setAttribute('title', 'score: '+stateWeight);
+  refreshTotalScore();
+}
+
+function refreshTotalScore() {
+  var totalScore = 0;
+  var reposTable = document.getElementById('repositories');
+  var reposLines = document.getElementsByTagName('tr');
+  for (var i=0; i<reposLines.length; i++) {
+    var cells = reposLines[i].getElementsByTagName('td');
+    var scoreCell = cells[cells.length-1];
+    var score = parseInt(scoreCelle.getAttribute('sorttable_customkey')) || 0;
+    totalScore += score;
+  }
+
+  var totalScoreElem = documentGetElementById('total_score');
+  totalScoreElem.innerHTML = 'Total score: '+totalScore;
 }
 
 // TODO: give a numerical weight to each line
