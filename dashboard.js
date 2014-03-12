@@ -261,14 +261,15 @@ function refreshTotalScore() {
   var totalScore = 0;
   var reposTable = document.getElementById('repositories');
   var reposLines = document.getElementsByTagName('tr');
-  for (var i=0; i<reposLines.length; i++) {
+  // Ignore title line
+  for (var i=1; i<reposLines.length; i++) {
     var cells = reposLines[i].getElementsByTagName('td');
     var scoreCell = cells[cells.length-1];
     var score = parseInt(scoreCell.getAttribute('sorttable_customkey')) || 0;
     totalScore += score;
   }
 
-  var totalScoreElem = documentGetElementById('total_score');
+  var totalScoreElem = document.getElementById('total_score');
   totalScoreElem.innerHTML = 'Total score: '+totalScore;
 }
 
