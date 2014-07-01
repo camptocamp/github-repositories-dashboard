@@ -38,10 +38,12 @@ function getTravisStatus(repo, priv, travis_token) {
           status = 'err';
           customkey = '2';
           image = 'error';
+          break;
         case 'created':
           status = 'warn';
           customkey = '3';
           image = 'pending';
+          break;
         default:
           status = 'unknown';
           customkey = '4';
