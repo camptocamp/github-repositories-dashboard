@@ -15,7 +15,7 @@ var repositories;
 var repoHeads;
 var account = org || user;
 var sortTimeout;
-var cookies = new Array();
+var cookies = new Object();
 
 // Main
 var token = readCookie('access_token');
@@ -96,12 +96,13 @@ function loadPage(token) {
 
 function addCookie(name, value, expire) {
   createCookie(name, value, expire);
-  cookies.push(name);
+  cookies[name] = null;
 }
 
 function authRemove() {
-  for (var i=0; i<cookies.length; i++) {
-    eraseCookie(cookies[i]);
+  cookie_names = Object.keys(cookies);
+  for (var i=0; i<cookies_names.length; i++) {
+    eraseCookie(cookies_names[i]);
   }
   window.location.reload();
 }
@@ -367,7 +368,11 @@ function readCookie(name) {
   for(var i=0;i < ca.length;i++) {
     var c = ca[i];
     while (c.charAt(0)==' ') c = c.substring(1,c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    if (c.indexOf(nameEQ) == 0) {
+      var value = c.substring(nameEQ.length,c.length);
+      cookies[name] = value;
+      return value;
+    }
   }
   return null;
 }
