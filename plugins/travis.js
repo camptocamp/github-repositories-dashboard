@@ -1,6 +1,7 @@
 dashboard.travis = function(repo) {
   var status = 'unknown';
   if (repo.private) {
+    var token = readCookie('access_token');
     travisAPICall('/auth/github', {"github_token": token}, true, 'POST', null, false, function(err, res) {
       getTravisStatus(repo, true, res.access_token);
     })
