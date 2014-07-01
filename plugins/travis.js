@@ -55,7 +55,7 @@ function travisAPICall(path, use_corsproxy, cb) {
       }
     }
   }
-  xhr.setRequestHeader('Accept','application/json; version=2');
+  xhr.setRequestHeader('Accept','application/vnd.travis-ci.2+json');
   xhr.setRequestHeader('Content-Type','application/json;charset=UTF-8');
   xhr.send();
 }
