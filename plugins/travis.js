@@ -1,10 +1,17 @@
 dashboard.travis = function(repo) {
   var status = 'unknown';
   if (repo.private) {
-    var token = readCookie('access_token');
-    travisAPICall('/auth/github', {"github_token": token}, true, 'POST', null, false, function(err, res) {
-      getTravisStatus(repo, true, res.access_token);
-    })
+    var access_token = readCookie('travis_access_token');
+    if (access_token) {
+      getTravisStatus(repo, true, access_token);
+    } else {
+      var gh_token = readCookie('access_token');
+      travisAPICall('/auth/github', {"github_token": gh_token}, true, 'POST', null, false, function(err, res) {
+        access_token, = res.access_token;
+        createCookie('travis_access_token', access_token, 1);
+        getTravisStatus(repo, true, access_token);
+      })
+    }
   } else {
     getTravisStatus(repo, false, null);
   }
