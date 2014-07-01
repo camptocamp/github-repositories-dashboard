@@ -31,7 +31,7 @@ function getTravisStatus(repo, priv, travis_token) {
           break;
       }
     }
-    var api = travisAPIURL(priv);
+    var api = travisURL(priv);
     updateTravisCell(repo.name, 'https://'+api+'/', repo.default_branch, travis_token, msg, status);
   });
 }
@@ -69,6 +69,14 @@ function travisAPIURL(priv) {
     return 'api.travis-ci.com';
   } else {
     return 'api.travis-ci.org';
+  }
+}
+
+function travisURL(priv) {
+  if (priv) {
+    return 'magnum.travis-ci.com';
+  } else {
+    return 'travis-ci.org';
   }
 }
 
