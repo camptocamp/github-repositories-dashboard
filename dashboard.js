@@ -15,7 +15,7 @@ var repositories;
 var repoHeads;
 var account = org || user;
 var sortTimeout;
-var cookies = [ 'access_token' ];
+var cookies = new Array();
 
 // Main
 var token = readCookie('access_token');
@@ -27,7 +27,7 @@ if (token) {
 
 // Called by authentication callback
 window.authComplete = function(token) {
-  createCookie('access_token', token, 1);
+  addCookie('access_token', token, 1);
   loadPage(token);
 }
 
@@ -94,9 +94,9 @@ function loadPage(token) {
   sortByState();
 }
 
-function addCookie(name, value, expire=1) {
+function addCookie(name, value, expire) {
   createCookie(name, value, expire);
-  cookies[] = name; 
+  cookies.push(name);
 }
 
 function authRemove() {
