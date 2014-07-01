@@ -12,9 +12,11 @@ dashboard.travis = function(repo) {
 function getTravisStatus(repo, priv, travis_token) {
   travisAPICall('/repos/'+account+'/'+repo.name+'/branches/'+repo.default_branch, null, priv, 'GET', travis_token, false, function(err, res) {
     var msg;
+    var customkey;
     if (err) {
       msg = 'Error while getting Travis status';
       status = 'unknown';
+      customkey = '9';
     } else {
       var date = new Date(res.branch.started_at);
       var date_str = ' on '+date.toLocaleDateString()+' at '+date.toLocaleTimeString();
@@ -22,17 +24,20 @@ function getTravisStatus(repo, priv, travis_token) {
       switch (res.branch.state) {
         case 'passed':
           status = 'ok';
+          customkey = '0';
           break;
         case 'failed':
           status = 'err';
+          customkey = '1';
           break;
         default:
           status = 'unknown';
+          customkey = '2';
           break;
       }
     }
     var api = travisURL(priv);
-    updateTravisCell(repo.name, 'https://'+api+'/', repo.default_branch, travis_token, msg, status);
+    updateTravisCell(repo.name, 'https://'+api+'/', repo.default_branch, travis_token, msg, status, customkey);
   });
 }
 
