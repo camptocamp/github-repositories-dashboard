@@ -1,5 +1,4 @@
 dashboard.priv = function(repo) {
-  if (repo.private) {
-    updateCell(repo.name, 'priv', '<img src="images/lock.png" />');
-  }
+  var html = repo.private ? '<img src="images/lock.png" width="30px" />' : '';
+  updateCell(repo.name, 'priv', html);
 }
