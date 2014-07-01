@@ -101,8 +101,8 @@ function addCookie(name, value, expire) {
 
 function authRemove() {
   cookie_names = Object.keys(cookies);
-  for (var i=0; i<cookies_names.length; i++) {
-    eraseCookie(cookies_names[i]);
+  for (var i=0; i<cookie_names.length; i++) {
+    eraseCookie(cookie_names[i]);
   }
   window.location.reload();
 }
