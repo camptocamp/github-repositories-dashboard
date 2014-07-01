@@ -81,9 +81,15 @@ function travisURL(priv) {
 }
 
 function updateTravisCell(name, travis_url, branch, travis_token, msg, status) {
-  var image_src = travis_url+account+'/'+name+'.png?branch='+branch;
-  image_src += travis_token ? '&token='+travis_token : '';
-  image_src += '#'+new Date().getTime();
+  var image_src = "images/travis/";
+  switch (status) {
+    'ok':
+      image_src += "passing.png";
+    'err':
+      image_src += "failing.png";
+    default:
+      image_src += "unknown.png";
+  }
   var html = '<a href="'+travis_url+account+'/'+name+'">';
   html += '<img src="'+image_src+'" title="'+msg+' (state='+status+')" />';
   html += '</a>';
