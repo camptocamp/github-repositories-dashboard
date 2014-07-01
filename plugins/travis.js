@@ -34,9 +34,13 @@ function getTravisStatus(repo, priv, travis_token) {
           customkey = '1';
           image = 'failing';
           break;
+        case: 'errored':
+          status = 'err';
+          customkey = '1';
+          image = 'error';
         default:
           status = 'unknown';
-          customkey = '2';
+          customkey = '3';
           image = 'unknown';
           break;
       }
@@ -93,7 +97,7 @@ function travisURL(priv) {
 function updateTravisCell(name, travis_url, branch, travis_token, msg, status, image, customkey) {
   var html = '<a href="'+travis_url+account+'/'+name+'">';
   if (image) {
-    var image_src = 'images/travis/'+image+'.png';
+    var image_src = 'images/travis/'+image+'.svg';
     html += '<img src="'+image_src+'" title="'+msg+' (state='+status+')" />';
   } else {
     html += '<span title="'+msg+'">'+status+'</span>';
