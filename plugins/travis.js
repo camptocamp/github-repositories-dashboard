@@ -16,7 +16,7 @@ function getTravisStatus(repo, priv, travis_token) {
     var image;
     if (err) {
       msg = 'Error while getting Travis status';
-      status = 'ERR';
+      status = 'err';
       customkey = '9';
       image = null;
     } else {
@@ -96,7 +96,7 @@ function updateTravisCell(name, travis_url, branch, travis_token, msg, status, i
     var image_src = 'images/travis/'+image+'.png';
     html += '<img src="'+image_src+'" title="'+msg+' (state='+status+')" />';
   } else {
-    html += '<span title="'+msg+'">'+msg+'</span>';
+    html += '<span title="'+msg+'">'+status+'</span>';
   }
   html += '</a>';
   updateCell(name, 'travis', html, status, customkey);
