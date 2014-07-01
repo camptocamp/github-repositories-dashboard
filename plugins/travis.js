@@ -13,10 +13,12 @@ function getTravisStatus(repo, priv, travis_token) {
   travisAPICall('/repos/'+account+'/'+repo.name+'/branches/'+repo.default_branch, null, priv, 'GET', travis_token, false, function(err, res) {
     var msg;
     var customkey;
+    var image;
     if (err) {
       msg = 'Error while getting Travis status';
       status = 'unknown';
       customkey = '9';
+      image = 'unknown';
     } else {
       var date = new Date(res.branch.started_at);
       var date_str = ' on '+date.toLocaleDateString()+' at '+date.toLocaleTimeString();
@@ -25,19 +27,22 @@ function getTravisStatus(repo, priv, travis_token) {
         case 'passed':
           status = 'ok';
           customkey = '0';
+          image = 'passing';
           break;
         case 'failed':
           status = 'err';
           customkey = '1';
+          image = 'failing';
           break;
         default:
           status = 'unknown';
           customkey = '2';
+          image = 'unknown';
           break;
       }
     }
     var api = travisURL(priv);
-    updateTravisCell(repo.name, 'https://'+api+'/', repo.default_branch, travis_token, msg, status, customkey);
+    updateTravisCell(repo.name, 'https://'+api+'/', repo.default_branch, travis_token, msg, status, image, customkey);
   });
 }
 
@@ -85,22 +90,11 @@ function travisURL(priv) {
   }
 }
 
-function updateTravisCell(name, travis_url, branch, travis_token, msg, status) {
-  var image_src = "images/travis/";
-  switch (status) {
-    case "ok":
-      image_src += "passing.png";
-      break;
-    case "err":
-      image_src += "failing.png";
-      break;
-    default:
-      image_src += "unknown.png";
-      break;
-  }
+function updateTravisCell(name, travis_url, branch, travis_token, msg, status, image, customkey) {
+  var image_src = 'images/travis/'+image+'.png';
   var html = '<a href="'+travis_url+account+'/'+name+'">';
   html += '<img src="'+image_src+'" title="'+msg+' (state='+status+')" />';
   html += '</a>';
-  updateCell(name, 'travis', html, status);
+  updateCell(name, 'travis', html, status, customkey);
 }
 
