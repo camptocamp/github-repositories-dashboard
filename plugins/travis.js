@@ -83,9 +83,9 @@ function travisURL(priv) {
 function updateTravisCell(name, travis_url, branch, travis_token, msg, status) {
   var image_src = "images/travis/";
   switch (status) {
-    'ok':
+    case 'ok':
       image_src += "passing.png";
-    'err':
+    case 'err':
       image_src += "failing.png";
     default:
       image_src += "unknown.png";
