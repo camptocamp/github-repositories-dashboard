@@ -34,7 +34,7 @@ function getTravisStatus(repo, priv, travis_token) {
           customkey = '1';
           image = 'failing';
           break;
-        case: 'errored':
+        case 'errored':
           status = 'err';
           customkey = '1';
           image = 'error';
