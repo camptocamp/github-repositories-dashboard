@@ -12,13 +12,13 @@ dashboard.status = function(repo) {
         var diff_msg;
         var state = 'ok';
         if (diff.status == 'ahead') {
-          diff_msg = diff.status + ' ('+diff.ahead_by+' commits)';
+          diff_msg = '<i class="fa fa-angle-double-up"></i> ('+diff.ahead_by+')';
           state = 'warn';
         } else if (diff.status == 'behind') {
-          diff_msg = diff.status + ' ('+diff.behind_by+' commits)';
+          diff_msg = '<i class="fa fa-angle-double-down"></i> ('+diff.behind_by+')';
           state = 'warn';
         } else if (diff.status == 'diverged') {
-          diff_msg = diff.status + ' ('+diff.behind_by+' behind and '+diff.ahead_by+' ahead)';
+          diff_msg = '<i class="fa fa-code-fork"></i> ('+diff.behind_by+')('+diff.ahead_by+')';
           state = 'err';
         } else {
           diff_msg = diff.status;
