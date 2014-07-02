@@ -81,7 +81,7 @@ function checkForgeTagsCommits(repo, version, url, tag_url) {
     } else {
       if (diff.status == 'ahead') {
         diff_url = diff.html_url;
-        html += ' <a hred="'+diff_url+'" title="Branch '+b+' is '+diff.ahead_by+' commits ahead of tag '+version+'"><i class="fa fa-angle-double-up"></i></a>';
+        html += ' <a href="'+diff_url+'" title="Branch '+b+' is '+diff.ahead_by+' commits ahead of tag '+version+'"><i class="fa fa-angle-double-up"></i></a>';
         state = 'warn';
         customkey = '11';
       } else if (diff.status == 'behind') {
