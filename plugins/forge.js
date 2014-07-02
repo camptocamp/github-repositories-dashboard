@@ -4,14 +4,22 @@ dashboard.forge = function(repo) {
     if (err) {
       updateCell(repo.name, 'forge', 'N/A');
     } else {
-      updateForge(repo.name, contents);
+      parseModulefile(repo.name, contents);
     }
   }, false);
 };
 
-function updateForge(name, contents) {
+function parseMetadataJSON(name, contents) {
+  console.log("not implemented");
+}
+
+function parseModulefile(name, contents) {
   var matches = contents.match(/name\s+(?:["'])([^"']+)(?:["\'])/);
   var module = matches[1];
+  updateForge(name, module);
+}
+
+function updateForge(name, module) {
   var m = module.split('-');
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
   if (m[0] == account) {
