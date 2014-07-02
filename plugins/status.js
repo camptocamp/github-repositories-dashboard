@@ -28,6 +28,6 @@ dashboard.status = function(repo) {
       }
     });
   } else {
-    updateCell(repo.name, 'status', 'N/A');
+    updateCell(repo.name, 'status', '');
   }
 }
