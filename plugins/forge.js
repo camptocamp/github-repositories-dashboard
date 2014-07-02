@@ -51,7 +51,7 @@ function updateForgeCell(repo, version, url) {
   var state;
   r.listTags(function(err, tags) {
     if (err) {
-      html += ' <span title="Failed to get tags"><i class="fa fa-warning"></i></span>';
+      html += ' <a href="'+repo.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
     } else {
       var tag_url = versionTagURL(tags, version);
       if (tag_url) {
@@ -60,7 +60,7 @@ function updateForgeCell(repo, version, url) {
         state = 'ok';
       } else {
         // No tag found, it's a warning
-        html += ' <span title="No matching tag found in repository"><i class="fa fa-warning"></i></span>';
+        html += ' <a href="'+repo.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
         state = 'warn';
       }
     }
