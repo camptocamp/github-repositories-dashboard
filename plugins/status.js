@@ -13,15 +13,15 @@ dashboard.status = function(repo) {
         var state = 'ok';
         var customkey;
         if (diff.status == 'ahead') {
-          diff_msg = '<i class="fa fa-angle-double-up" title="'+diff.ahead_by+' commits ahead"></i> ('+diff.ahead_by+')';
+          diff_msg = '<span title="'+diff.ahead_by+' commits ahead"><i class="fa fa-angle-double-up"></i> ('+diff.ahead_by+')</span>';
           state = 'warn';
           customkey = '3';
         } else if (diff.status == 'behind') {
-          diff_msg = '<i class="fa fa-angle-double-down" title="'+diff.behind_by+' commits behind"></i> ('+diff.behind_by+')';
+          diff_msg = '<span title="'+diff.behind_by+' commits behind"><i class="fa fa-angle-double-down"></i> ('+diff.behind_by+')</span>';
           state = 'warn';
           customkey = '2';
         } else if (diff.status == 'diverged') {
-          diff_msg = '<i class="fa fa-code-fork" title="'+diff.behind_by+' commits behind and '+diff.ahead_by+' commits ahead"></i> ('+diff.behind_by+')('+diff.ahead_by+')';
+          diff_msg = '<span title="'+diff.behind_by+' commits behind and '+diff.ahead_by+' commits ahead"><i class="fa fa-code-fork"></i> ('+diff.behind_by+')('+diff.ahead_by+')</span>';
           state = 'err';
           customkey = '1';
         } else if (diff.status == 'identical') {
