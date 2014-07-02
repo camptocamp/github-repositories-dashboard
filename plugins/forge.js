@@ -34,7 +34,8 @@ function updateForge(repo, module) {
   if (m[0] == account) {
     forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
       if (err) {
-        updateForgeCell(repo.name, 'ERR', 'warn', '4');
+        var html = '<span title="Module does not exist on the forge but has metadata file"><i class="fa fa-times"></i></span>';
+        updateForgeCell(repo.name, html, 'warn', '4');
       } else {
         checkForgeTags(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
       }
@@ -76,8 +77,8 @@ function checkForgeTagsCommits(repo, version, url, tag_url) {
   // get diff
   r.compare(account+':'+version, account+':'+b, function(err, diff) {
     if (err) {
-      updateCell(repo.name, 'status', 'ERR', 'err');
       html += ' <span title="Failed get commits since tag"><i class="fa fa-warning"></i></span>';
+      updateCell(repo.name, 'status', html, 'err', '15');
     } else {
       if (diff.status == 'ahead') {
         diff_url = diff.html_url;
