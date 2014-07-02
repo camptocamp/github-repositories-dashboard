@@ -7,10 +7,10 @@ dashboard.last_committer = function(repo) {
     var status = 'unknown';
     var login = null;
 
-    if (commit.author) {
-      var avatar = '<img src="'+commit.author.avatar_url+'" width="30px" />';
-      html = '<a href="'+commit.author.html_url+'">'+avatar+'</a>';
-      login = commit.author.login;
+    if (commit.committer) {
+      var avatar = '<img src="'+commit.committer.avatar_url+'" width="30px" />';
+      html = '<a href="'+commit.committer.html_url+'">'+avatar+'</a>';
+      login = commit.committer.login;
     }
 
     updateCell(repo.name, 'last_committer', html, status, login);
