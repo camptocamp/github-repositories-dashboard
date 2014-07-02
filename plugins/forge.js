@@ -55,10 +55,11 @@ function updateForgeCell(repo, version, url) {
       var tag_url = versionTagURL(tags, version);
       if (tag_url) {
         // Tag found, add tag and link
-        html += ' <a href="'+tag_url+'"><i class="fa fa-tag"></i></a>';
+        html += ' <a href="'+tag_url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
         state = 'ok';
       } else {
         // No tag found, it's a warning
+        html += ' <span title="No matching tag found in repository"><i class="fa fa-warning"></i></span>';
         state = 'warn';
       }
     }
