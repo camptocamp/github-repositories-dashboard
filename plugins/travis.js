@@ -10,7 +10,7 @@ dashboard.travis = function(repo) {
         access_token = res.access_token;
         addCookie('travis_access_token', access_token);
         getTravisStatus(repo, true, access_token);
-      })
+      });
     }
   } else {
     getTravisStatus(repo, false, null);

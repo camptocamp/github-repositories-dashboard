@@ -12,7 +12,7 @@ dashboard.forge = function(repo) {
     } else {
       parseMetadataJSON(repo.name, contents);
     }
-  }
+  });
 };
 
 function parseMetadataJSON(name, contents) {
