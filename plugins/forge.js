@@ -1,16 +1,24 @@
 dashboard.forge = function(repo) {
   var r = repositories[repo.name]['repo'];
-  r.contents('master', 'Modulefile', function(err, contents) {
+  r.contents('master', 'metadata.json', function(err, contents) {
     if (err) {
-      updateCell(repo.name, 'forge', 'N/A');
+      r.contents('master', 'Modulefile', function(err, contents) {
+        if (err) {
+          updateCell(repo.name, 'forge', 'N/A');
+        } else {
+          parseModulefile(repo.name, contents);
+        }
+      }, false);
     } else {
-      parseModulefile(repo.name, contents);
+      parseMetadataJSON(repo.name, contents);
     }
-  }, false);
+  }
 };
 
 function parseMetadataJSON(name, contents) {
-  console.log("not implemented");
+  var json = JSON.parse(contents);
+  var module = json.name;
+  updateForge(name, module);
 }
 
 function parseModulefile(name, contents) {
