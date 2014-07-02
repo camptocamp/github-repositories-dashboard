@@ -28,10 +28,9 @@ dashboard.status = function(repo) {
         } else if (diff.status == 'diverged') {
           ahead_url = diff.html_url;
           behind_url = invertDiffURL(diff.html_url);
-          html = '<span title="'+diff.behind_by+' commits behind and '+diff.ahead_by+' commits ahead"><i class="fa fa-code-fork"></i> ';
-          html += '<a href="'+behind_url+'">('+diff.behind_by+')</a> ';
-          html += '<a href="'+ahead_url+'">('+diff.ahead_by+')</a>';
-          html += '</span>';
+          html = '<span title="'+diff.behind_by+' commits behind and '+diff.ahead_by+' commits ahead"><i class="fa fa-code-fork"></i></span> ';
+          html += '<a href="'+behind_url+'" title="'+diff.behind_by+' commits behind">('+diff.behind_by+')</a> ';
+          html += '<a href="'+ahead_url+'" title="'+diff.ahead_by+' commits ahead">('+diff.ahead_by+')</a>';
           state = 'err';
           customkey = '1';
         } else if (diff.status == 'identical') {
