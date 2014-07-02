@@ -28,6 +28,7 @@ th {
   text-align: left;
   padding: 1px 5px 1px 5px;
   background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+  font-size: 1em;
 }
 
 th.nobg {
