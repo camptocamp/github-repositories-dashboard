@@ -35,7 +35,7 @@ function updateForge(repo, module) {
       if (err) {
         updateCell(repo.name, 'forge', 'ERR');
       } else {
-        updateForgeCell(repo, res.version, 'http://forge.puppetlabs.com'+res.file;
+        updateForgeCell(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
       }
     });
   } else {
