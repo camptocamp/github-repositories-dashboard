@@ -80,11 +80,11 @@ function checkForgeTagsCommits(repo, version, url, tag_url) {
       html += ' <span title="Failed get commits since tag"><i class="fa fa-warning"></i></span>';
     } else {
       if (diff.status == 'ahead') {
-        html += ' <span title="Branch '+b+' is '+diff.ahead_by+' commits ahead of tag '+version+'"><<i class="fa fa-angle-double-up"></i></span>';
+        html += ' <span title="Branch '+b+' is '+diff.ahead_by+' commits ahead of tag '+version+'"><i class="fa fa-angle-double-up"></i></span>';
         state = 'warn';
         customkey = '11';
       } else if (diff.status == 'behind') {
-        html += ' <span title="Branch '+b+' is '+diff.behind_by+' commits behind of tag '+version+'"><<i class="fa fa-angle-double-down"></i></span>';
+        html += ' <span title="Branch '+b+' is '+diff.behind_by+' commits behind of tag '+version+'"><i class="fa fa-angle-double-down"></i></span>';
         state = 'warn';
         customkey = '12';
       } else if (diff.status == 'diverged') {
