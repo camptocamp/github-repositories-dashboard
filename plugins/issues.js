@@ -3,6 +3,7 @@ dashboard.issues = function(repo) {
     var status;
     var text;
     var title;
+    var customkey = 0;
     if (err) {
       title = JSON.parse(err.request.response).message;
       if (err.error == 410) {
@@ -14,6 +15,7 @@ dashboard.issues = function(repo) {
       }
     } else {
       text = issues.length;
+      customkey = issues.length;
       if (issues.length > 0) {
         status = 'warn';
       } else {
@@ -21,7 +23,7 @@ dashboard.issues = function(repo) {
       }
     }
     html = '<a href="https://github.com/'+account+'/'+repo.name+'/issues" title="'+title+'">'+text+'</a>';
-    updateCell(repo.name, 'issues', html, status, issues.length);
+    updateCell(repo.name, 'issues', html, status, customkey);
   });
 }
 
