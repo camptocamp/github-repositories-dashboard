@@ -333,7 +333,7 @@ function refreshSort() {
       sorttable.innerSortFunction.apply(heads[i], []);
       sorttable.innerSortFunction.apply(heads[i], []);
       break;
-    } else if (heads[i].className.match(/\bsorttable_([a-z0-9]+)\b/)) {
+    } else if (heads[i].className.match(/\bsorttable_sorted([a-z0-9]*)\b/)) {
       // first sort by name
       sorttable.innerSortFunction.apply(heads[0], []);
       sorttable.innerSortFunction.apply(heads[i], []);
