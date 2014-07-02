@@ -4,7 +4,8 @@ dashboard.forge = function(repo) {
     if (err) {
       r.contents('master', 'Modulefile', function(err, contents) {
         if (err) {
-          updateCell(repo.name, 'forge', 'N/A');
+          // This might be a warning/error at some point
+          updateCell(repo.name, 'forge', '');
         } else {
           parseModulefile(repo, contents);
         }
@@ -50,7 +51,7 @@ function updateForgeCell(repo, version, url) {
   var state;
   r.listTags(function(err, tags) {
     if (err) {
-      updateCell(repo.name, 'forge', 'Failed to get tags', 'unknown');
+      html += ' <span title="Failed to get tags"><i class="fa fa-warning"></i></span>';
     } else {
       var tag_url = versionTagURL(tags, version);
       if (tag_url) {
@@ -63,8 +64,8 @@ function updateForgeCell(repo, version, url) {
         state = 'warn';
       }
     }
+    updateCell(repo.name, 'forge', html, state);
   });
-  updateCell(repo.name, 'forge', html, state);
 }
 
 function versionTagURL(tags, version) {
