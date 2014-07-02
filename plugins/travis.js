@@ -8,7 +8,7 @@ dashboard.travis = function(repo) {
       var gh_token = readCookie('access_token');
       travisAPICall('/auth/github', {"github_token": gh_token}, true, 'POST', null, false, function(err, res) {
         access_token = res.access_token;
-        addCookie('travis_access_token', access_token);
+        addCookie('travis_access_token', access_token, 1);
         getTravisStatus(repo, true, access_token);
       });
     }
