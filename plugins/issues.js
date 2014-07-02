@@ -21,7 +21,7 @@ dashboard.issues = function(repo) {
       }
     }
     html = '<a href="https://github.com/'+account+'/'+repo.name+'/issues" title="'+title+'">'+text+'</a>';
-    updateCell(repo.name, 'issues', html, status);
+    updateCell(repo.name, 'issues', html, status, issues.length);
   });
 }
 

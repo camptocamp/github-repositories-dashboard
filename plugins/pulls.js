@@ -8,6 +8,6 @@ dashboard.pulls = function(repo) {
     } else {
       status = 'ok';
     }
-    updateCell(repo.name, 'pulls', html, status);
+    updateCell(repo.name, 'pulls', html, status, pulls.length);
   });
 }
