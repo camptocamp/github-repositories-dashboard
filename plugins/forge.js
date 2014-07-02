@@ -34,38 +34,45 @@ function updateForge(repo, module) {
   if (m[0] == account) {
     forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
       if (err) {
-        updateCell(repo.name, 'forge', 'ERR');
+        updateForgeCell(repo.name, 'ERR', 'warn', '4');
       } else {
-        updateForgeCell(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
+        checkForgeTags(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
       }
     });
   } else {
-    updateCell(repo.name, 'forge', '', 'ok');
+    updateForgeCell(repo.name, '', 'ok', '1');
   }
 };
 
-function updateForgeCell(repo, version, url) {
+function checkForgeTags(repo, version, url) {
   // Check if there is a tag for the release
   var r = repositories[repo.name]['repo'];
   var html = '<a href="'+url+'">'+version+'</a>';
-  var state;
   r.listTags(function(err, tags) {
     if (err) {
       html += ' <a href="'+repo.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
+      updateForgeCell(repo.name, html, 'warn', '3');
     } else {
       var tag_url = versionTagURL(tags, version);
       if (tag_url) {
-        // Tag found, add tag and link
-        html += ' <a href="'+tag_url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
-        state = 'ok';
+        checkForgeTagsCommits(repo, version, url, tag_url);
       } else {
         // No tag found, it's a warning
         html += ' <a href="'+repo.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
-        state = 'warn';
+        updateForgeCell(repo.name, html, 'warn', '2');
       }
     }
-    updateCell(repo.name, 'forge', html, state);
   });
+}
+
+function checkForgeTagsCommits(repo, version, url, tag_url) {
+  var html = '<a href="'+url+'">'+version+'</a>';
+  html += ' <a href="'+tag_url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
+  updateForgeCell(repo.name, html, 'ok', '0');
+}
+
+function updateForgeCell(name, html, state, customkey) {
+  updateCell(name, 'forge', html, state, customkey);
 }
 
 function versionTagURL(tags, version) {
