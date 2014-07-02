@@ -66,9 +66,41 @@ function checkForgeTags(repo, version, url) {
 }
 
 function checkForgeTagsCommits(repo, version, url, tag_url) {
+  var r = repositories[repo.name]['repo'];
+  var b = repo.default_branch;
   var html = '<a href="'+url+'">'+version+'</a>';
   html += ' <a href="'+tag_url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
-  updateForgeCell(repo.name, html, 'ok', '0');
+  var state;
+  var customkey;
+
+  // get diff
+  r.compare(account+':'+version, account+':'+b, function(err, diff) {
+    if (err) {
+      updateCell(repo.name, 'status', 'ERR', 'err');
+      html += ' <span title="Failed get commits since tag"><i class="fa fa-warning"></i></span>';
+    } else {
+      if (diff.status == 'ahead') {
+        html += ' <span title="Branch "'+b+' is '+diff.ahead_by+' commits ahead of tag '+version+'"><<i class="fa fa-angle-double-up"></i></span>';
+        state = 'warn';
+        customkey = '11';
+      } else if (diff.status == 'behind') {
+        html += ' <span title="Branch "'+b+' is '+diff.behind_by+' commits behind of tag '+version+'"><<i class="fa fa-angle-double-down"></i></span>';
+        state = 'warn';
+        customkey = '12';
+      } else if (diff.status == 'diverged') {
+        html += ' <span title="Branch "'+b+' is '+diff.behind_by+' commits behind and '+diff.ahead_by+' commits ahead of tag '+version+'"><i class="fa fa-code-fork"></i></span>';
+      } else if (diff.status == 'identical') {
+        html += ' <span title="Branch "'+b+' is identical to tag '+version+'"><i class="fa fa-check"></i></span>';
+        state = 'ok';
+        customkey = '13';
+      } else {
+        html += ' <span title="Branch "'+b+' has comparison status with tag '+version+' set to '+diff.status+'"><i class="fa fa-warning"></i></span>';
+        state = 'unknown';
+        customkey = '14';
+      }
+    }
+    updateForgeCell(repo.name, html, state, customkey);
+  });
 }
 
 function updateForgeCell(name, html, state, customkey) {
