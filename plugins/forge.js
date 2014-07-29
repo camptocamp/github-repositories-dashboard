@@ -125,7 +125,7 @@ function forgeAPICall(path, use_jsonproxy, cb) {
   function getURL() {
     var uri = 'https://forgeapi.puppetlabs.com/v3'+path;
     if (use_jsonproxy) {
-      return 'https://jsonp.nodejitsu.com/?url='+encodeURI(uri);
+      return 'https://jsonp.nodejitsu.com/?url='+escape(uri);
     } else {
       return uri;
     }
