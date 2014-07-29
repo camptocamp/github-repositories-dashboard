@@ -142,7 +142,6 @@ function forgeAPICall(path, use_jsonproxy, cb) {
       }
     }
   };
-  xhr.setRequestHeader('User-Agent', 'GitHub-Repositories-Dashboard/1.0.0');
   xhr.setRequestHeader('Content-Type','application/json;charset=UTF-8');
   xhr.send();
 };
