@@ -123,10 +123,11 @@ function versionTagURL(tags, version) {
 
 function forgeAPICall(path, use_jsonproxy, cb) {
   function getURL() {
+    var uri = 'https://forgeapi.puppetlabs.com/v3'+path;
     if (use_jsonproxy) {
-      return 'https://jsonp.nodejitsu.com/?url=https://forgeapi.puppetlabs.com/v3'+path;
+      return 'https://jsonp.nodejitsu.com/?url='+encodeURI(uri);
     } else {
-      return 'https://forgeapi.puppetlabs.com/v3'+path;
+      return uri;
     }
   }
 
