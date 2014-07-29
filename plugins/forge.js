@@ -143,6 +143,6 @@ function forgeAPICall(path, use_jsonproxy, cb) {
       }
     }
   };
-  xhr.setRequestHeader('Accept', 'application/json');
+  xhr.setRequestHeader('Accept', 'application/json;charset=UTF-8');
   xhr.send();
 };
