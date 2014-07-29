@@ -121,10 +121,10 @@ function versionTagURL(tags, version) {
   }
 }
 
-function forgeAPICall(path, use_corsproxy, cb) {
+function forgeAPICall(path, use_jsonproxy, cb) {
   function getURL() {
-    if (use_corsproxy) {
-      return 'http://www.corsproxy.com/forgeapi.puppetlabs.com/v3'+path;
+    if (use_jsonproxy) {
+      return 'https://jsonp.nodejitsu.com/?callback=?&url=https://forgeapi.puppetlabs.com/v3'+path;
     } else {
       return 'https://forgeapi.puppetlabs.com/v3'+path;
     }
