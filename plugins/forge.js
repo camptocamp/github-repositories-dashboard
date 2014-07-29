@@ -126,7 +126,7 @@ function forgeAPICall(path, use_corsproxy, cb) {
     if (use_corsproxy) {
       return 'http://www.corsproxy.com/forge.puppetlabs.com'+path+'?'+ (new Date()).getTime();
     } else {
-      return 'http://forgeapi.puppetlabs.com/v3'+path+'?'+ (new Date()).getTime();
+      return 'https://forgeapi.puppetlabs.com/v3'+path+'?'+ (new Date()).getTime();
     }
   }
 
