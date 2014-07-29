@@ -32,12 +32,13 @@ function updateForge(repo, module) {
   var m = module.split('-');
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
   if (m[0] == account) {
-    forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
+    forgeAPICall('/releases?sort_by=release_date&module='+module, false, function(err, res) {
       if (err) {
         var html = '<span title="Module does not exist on the forge but has metadata file"><i class="fa fa-times"></i></span>';
         updateForgeCell(repo.name, html, 'warn', '4');
       } else {
-        checkForgeTags(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
+        var result = res.results[0];
+        checkForgeTags(repo, result.version, 'https://forge.puppetlabs.com/'+m[0]+'/'+m[1]+'/'+result.version);
       }
     });
   } else {
@@ -125,7 +126,7 @@ function forgeAPICall(path, use_corsproxy, cb) {
     if (use_corsproxy) {
       return 'http://www.corsproxy.com/forge.puppetlabs.com'+path+'?'+ (new Date()).getTime();
     } else {
-      return 'http://forge.puppetlabs.com'+path+'?'+ (new Date()).getTime();
+      return 'http://forgeapi.puppetlabs.com/v3'+path+'?'+ (new Date()).getTime();
     }
   }
 
