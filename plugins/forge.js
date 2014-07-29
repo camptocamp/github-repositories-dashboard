@@ -32,7 +32,7 @@ function updateForge(repo, module) {
   var m = module.split('-');
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
   if (m[0] == account) {
-    forgeAPICall('/releases?sort_by=release_date&module='+module, false, function(err, res) {
+    forgeAPICall('/releases?sort_by=release_date&module='+module, true, function(err, res) {
       if (err) {
         var html = '<span title="Module does not exist on the forge but has metadata file"><i class="fa fa-times"></i></span>';
         updateForgeCell(repo.name, html, 'warn', '4');
