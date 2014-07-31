@@ -9,6 +9,7 @@ dashboard.pl_module = function(repo) {
       customkey = '0';
     } else {
       html = '<a href="'+info.html_url+'"><i class="fa fa-external-link"></i></a>';
+      html += ' <a href="'+info.html_url+'/network">('+info.forks_count+')</a>';
       customkey = '1';
     }
     updateCell(repo.name, 'pl_module', html, null, customkey);
