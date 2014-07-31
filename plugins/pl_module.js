@@ -6,7 +6,7 @@ dashboard.pl_module = function(repo) {
     if (err) {
       html = '';
     } else {
-      html = '<a href="'+r.info.html_url+'"><i class="fa fa-external-link"></i></a>';
+      html = '<a href="'+info.html_url+'"><i class="fa fa-external-link"></i></a>';
     }
     updateCell(repo.name, 'pl_module', html);
   });
