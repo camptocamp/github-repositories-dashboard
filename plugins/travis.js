@@ -52,9 +52,14 @@ function getTravisStatus(repo, priv, travis_token) {
           customkey = '3';
           image = 'pending';
           break;
+        case 'canceled':
+          status = 'warn';
+          customkey = '4';
+          image = 'canceled';
+          break;
         default:
           status = 'unknown';
-          customkey = '4';
+          customkey = '5';
           image = 'unknown';
           break;
       }
