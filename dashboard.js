@@ -403,10 +403,14 @@ var repoHeads;
     module.exports = updateRepo;
     module.exports = listRepos;
     module.exports = authRemove;
+    module.exports = readCookie;
+    module.exports = addCookie;
   } else {
     window.GHDashboard = GHDashboard;
     window.updateRepo = updateRepo;
     window.listRepos = listRepos;
     window.authRemove = authRemove;
+    window.readCookie = readCookie;
+    window.addCookie = addCookie;
   }
 }).call(this);
