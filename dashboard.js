@@ -288,14 +288,6 @@ var repoHeads;
     createCookie(name, value, expire);
     cookies[name] = null;
   }
-  
-  authRemove = function() {
-    cookie_names = Object.keys(cookies);
-    for (var i=0; i<cookie_names.length; i++) {
-      eraseCookie(cookie_names[i]);
-    }
-    window.location.reload();
-  }
 
   var GHDashboard = function(options) {
     var org = options.org;
@@ -318,6 +310,14 @@ var repoHeads;
  
     this.refreshList = function() {
       reposFunc(account, listRepos);
+    }
+  
+    this.authRemove = function() {
+      cookie_names = Object.keys(cookies);
+      for (var i=0; i<cookie_names.length; i++) {
+        eraseCookie(cookie_names[i]);
+      }
+      window.location.reload();
     }
 
     this.load = function(token) {
@@ -392,10 +392,11 @@ var repoHeads;
     /* Dashboard functions */
     
     // Called by authentication callback
+    var self = this;
     window.authComplete = function(token) {
       addCookie('access_token', token, 1);
       if (autoload) {
-        this.load(token);
+        self.load(token);
       }
     }
   };
@@ -405,7 +406,6 @@ var repoHeads;
     module.exports = GHDashboard;
     module.exports = updateRepo;
     module.exports = listRepos;
-    module.exports = authRemove;
     module.exports = readCookie;
     module.exports = addCookie;
     module.exports = worstState;
@@ -413,7 +413,6 @@ var repoHeads;
     window.GHDashboard = GHDashboard;
     window.updateRepo = updateRepo;
     window.listRepos = listRepos;
-    window.authRemove = authRemove;
     window.readCookie = readCookie;
     window.addCookie = addCookie;
     window.worstState = worstState;
