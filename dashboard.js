@@ -296,6 +296,8 @@ var repoHeads;
     refresh_randomize = options.refresh_randomize || 0.5; // up to 15 minutes
     var filter = options.filter;
     var autoload = options.autoload;
+    var auth_link = options.auth_link || 'auth_link';
+    var auth_remove = options.auth_remove || 'auth_remove';
 
     account = org || user;
 
@@ -322,8 +324,8 @@ var repoHeads;
 
     this.load = function(token) {
       if (token) {
-        document.getElementById('auth_link').style.display = 'none';
-        document.getElementById('auth_remove').style.display = 'inline-block';
+        document.getElementById(auth_link).style.display = 'none';
+        document.getElementById(auth_remove).style.display = 'inline-block';
         github = new Github({
           token: token
         });
