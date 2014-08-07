@@ -30,8 +30,9 @@ function parseModulefile(repo, contents) {
 
 function updateForge(repo, module) {
   var m = module.split('-');
+  var forgeAccount = plugin_options.forge.account || account;
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
-  if (m[0] == account) {
+  if (m[0] == forgeAccount) {
     forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
       if (err) {
         var html = '<span title="Module does not exist on the forge but has metadata file"><i class="fa fa-times"></i></span>';
@@ -67,6 +68,7 @@ function checkForgeTags(repo, version, url) {
 }
 
 function checkForgeTagsCommits(repo, version, url, tag_url) {
+  var forgeAccount = plugin_options.forge.account || account;
   var r = repositories[repo.name]['repo'];
   var b = repo.default_branch;
   var html = '<a href="'+url+'">'+version+'</a>';
@@ -75,7 +77,7 @@ function checkForgeTagsCommits(repo, version, url, tag_url) {
   var customkey;
 
   // get diff
-  r.compare(account+':'+version, account+':'+b, function(err, diff) {
+  r.compare(forgeAccount+':'+version, forgeAccount+':'+b, function(err, diff) {
     if (err) {
       html += ' <span title="Failed get commits since tag"><i class="fa fa-warning"></i></span>';
       updateCell(repo.name, 'status', html, 'err', '15');

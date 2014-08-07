@@ -12,6 +12,7 @@ var refresh;
 var refresh_randomize;
 var reposFunc;
 var repoHeads;
+var plugin_options;
 
 (function() {
 
@@ -290,6 +291,7 @@ var repoHeads;
     var autoload = options.autoload;
     var auth_link = options.auth_link || 'auth_link';
     var auth_remove = options.auth_remove || 'auth_remove';
+    plugin_options = options.plugin_options || {};
 
     account = org || user;
 
