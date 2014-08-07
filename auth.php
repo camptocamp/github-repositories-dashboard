@@ -36,7 +36,7 @@
 <html>
   <head>
     <script>
-      opener.authComplete('<? echo $responseData['access_token'] ?>');
+      opener.authComplete('<?php echo $responseData['access_token'] ?>');
       window.close();
     </script>
   </head>
