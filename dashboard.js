@@ -296,69 +296,6 @@ var repoHeads;
     html += '<td><a href="javascript:updateRepo(\''+name+'\')"><i class="fa fa-refresh fa-1g"></i></a></td>';
     document.getElementById(name).innerHTML = html;
   }
-
-  function loadPage(token) {
-    if (token) {
-      document.getElementById('auth_link').style.display = 'none';
-      document.getElementById('auth_remove').style.display = 'inline-block';
-      github = new Github({
-        token: token
-      });
-    } else {
-      // It's ok not to be authenticated
-      github = new Github({});
-    }
-  
-    gh_user = github.getUser();
-  
-    var reposTable = document.getElementById('repositories');
-    var reposTableBody = document.getElementsByTagName('tbody')[0];
-  
-    // Remove all lines in body
-    while (reposTableBody.hasChildNodes()) {
-      reposTableBody.removeChild(reposTableBody.lastChild);
-    }
-  
-    // Initialize
-    repositories = {};
-    repoHeads = [];
-  
-    // Get heads
-    var headElems = reposTable.getElementsByTagName('th');
-    for (var i=0; i<headElems.length; i++) {
-      classes = headElems[i].className.split(' ');
-      for (var j=0; j<classes.length; j++) {
-        if (classes[j].match(/^plugin:/)) {
-          repoHeads.push(classes[j]);
-        }
-      }
-    }
-  
-    // Load plugins
-    for (var i=0; i<repoHeads.length; i++) {
-      var plugin = repoHeads[i].replace('plugin:', '');
-      loadPlugin(plugin);
-    }
-
-    var spinner = document.createElement('tr');
-    spinner.setAttribute('id', 'spinner');
-    spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading_bar.gif" /></td>';
-  
-    if (org) {
-      reposTableBody.appendChild(spinner);
-      reposFunc = gh_user.orgRepos;
-      gh_user.orgRepos(account, listRepos);
-    } else if (user) {
-      reposTableBody.appendChild(spinner);
-      reposFunc = gh_user.userRepos;
-      gh_user.userRepos(account, listRepos);
-    } else {
-      dispError('You must specify a user or org.');
-    }
-  
-    sorttable.makeSortable(reposTable);
-    sortByState();
-  }
   
   function addCookie(name, value, expire) {
     createCookie(name, value, expire);
@@ -382,10 +319,73 @@ var repoHeads;
 
     account = org || user;
 
+    this.load = function(token) {
+      if (token) {
+        document.getElementById('auth_link').style.display = 'none';
+        document.getElementById('auth_remove').style.display = 'inline-block';
+        github = new Github({
+          token: token
+        });
+      } else {
+        // It's ok not to be authenticated
+        github = new Github({});
+      }
+    
+      gh_user = github.getUser();
+    
+      var reposTable = document.getElementById('repositories');
+      var reposTableBody = document.getElementsByTagName('tbody')[0];
+    
+      // Remove all lines in body
+      while (reposTableBody.hasChildNodes()) {
+        reposTableBody.removeChild(reposTableBody.lastChild);
+      }
+    
+      // Initialize
+      repositories = {};
+      repoHeads = [];
+    
+      // Get heads
+      var headElems = reposTable.getElementsByTagName('th');
+      for (var i=0; i<headElems.length; i++) {
+        classes = headElems[i].className.split(' ');
+        for (var j=0; j<classes.length; j++) {
+          if (classes[j].match(/^plugin:/)) {
+            repoHeads.push(classes[j]);
+          }
+        }
+      }
+    
+      // Load plugins
+      for (var i=0; i<repoHeads.length; i++) {
+        var plugin = repoHeads[i].replace('plugin:', '');
+        loadPlugin(plugin);
+      }
+  
+      var spinner = document.createElement('tr');
+      spinner.setAttribute('id', 'spinner');
+      spinner.innerHTML = '<td colspan="'+(repoHeads.length+2)+'"><img src="images/loading_bar.gif" /></td>';
+    
+      if (org) {
+        reposTableBody.appendChild(spinner);
+        reposFunc = gh_user.orgRepos;
+        gh_user.orgRepos(account, listRepos);
+      } else if (user) {
+        reposTableBody.appendChild(spinner);
+        reposFunc = gh_user.userRepos;
+        gh_user.userRepos(account, listRepos);
+      } else {
+        dispError('You must specify a user or org.');
+      }
+    
+      sorttable.makeSortable(reposTable);
+      sortByState();
+    };
+
     // Main
     token = readCookie('access_token');
     if (token) {
-      loadPage(token);
+      this.load(token);
     }
  
     /* Dashboard functions */
@@ -393,7 +393,7 @@ var repoHeads;
     // Called by authentication callback
     window.authComplete = function(token) {
       addCookie('access_token', token, 1);
-      loadPage(token);
+      this.load(token);
     }
   };
 
