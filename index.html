@@ -51,7 +51,8 @@ var filter = getParameterByName('filter') || '^puppet-';
 
 var dash = new GHDashboard({
   org: org,
-  filter: filter
+  filter: filter,
+  autoload: true
 });
 document.title = 'Augeasproviders repositories for '+org;
     </script>

@@ -316,6 +316,7 @@ var repoHeads;
     refresh = options.refresh || 600000; // 100 minutes
     refresh_randomize = options.refresh_randomize || 0.5; // up to 15 minutes
     var filter = options.filter;
+    var autoload = options.autoload;
 
     account = org || user;
 
@@ -384,7 +385,7 @@ var repoHeads;
 
     // Main
     token = readCookie('access_token');
-    if (token) {
+    if (token && autoload) {
       this.load(token);
     }
  
@@ -393,7 +394,9 @@ var repoHeads;
     // Called by authentication callback
     window.authComplete = function(token) {
       addCookie('access_token', token, 1);
-      this.load(token);
+      if (autoload) {
+        this.load(token);
+      }
     }
   };
 
