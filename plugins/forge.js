@@ -1,4 +1,5 @@
 dashboard.forge = function(repo) {
+  plugin_options.forge = plugin_options.forge || {};
   var r = repositories[repo.name]['repo'];
   r.contents('master', 'metadata.json', function(err, contents) {
     if (err) {
