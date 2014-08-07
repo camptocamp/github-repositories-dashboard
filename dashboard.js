@@ -405,6 +405,7 @@ var repoHeads;
     module.exports = authRemove;
     module.exports = readCookie;
     module.exports = addCookie;
+    module.exports = worstState;
   } else {
     window.GHDashboard = GHDashboard;
     window.updateRepo = updateRepo;
@@ -412,5 +413,6 @@ var repoHeads;
     window.authRemove = authRemove;
     window.readCookie = readCookie;
     window.addCookie = addCookie;
+    window.worstState = worstState;
   }
 }).call(this);
