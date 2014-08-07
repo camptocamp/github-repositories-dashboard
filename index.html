@@ -46,8 +46,8 @@ function getParameterByName(name) {
   return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-var org = getParameterByName('org') || 'hercules-team';
-var filter = getParameterByName('filter') || 'augeasproviders';
+var org = getParameterByName('org') || 'camptocamp';
+var filter = getParameterByName('filter') || '^puppet-';
 
 var dash = new GHDashboard({
   org: org,
