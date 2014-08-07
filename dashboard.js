@@ -110,14 +110,6 @@ var repoHeads;
       }
     }
   }
-  
-  // Plugins
-  function loadPlugin(plugin) {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'plugins/'+plugin+'.js'; 
-    document.body.appendChild(script);
-  }
 
   // Cookies
   
@@ -321,6 +313,14 @@ var repoHeads;
       }
       window.location.reload();
     }
+  
+    // Plugins
+    this.loadPlugin = function(plugin) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'plugins/'+plugin+'.js'; 
+      document.body.appendChild(script);
+    }
 
     this.load = function(token) {
       if (token) {
@@ -362,7 +362,7 @@ var repoHeads;
       // Load plugins
       for (var i=0; i<repoHeads.length; i++) {
         var plugin = repoHeads[i].replace('plugin:', '');
-        loadPlugin(plugin);
+        this.loadPlugin(plugin);
       }
   
       var spinner = document.createElement('tr');
