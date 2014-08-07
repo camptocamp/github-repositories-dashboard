@@ -290,6 +290,7 @@ var plugin_options;
     var filter = options.filter;
     var autoload = options.autoload;
     var auth_link = options.auth_link || 'auth_link';
+    var auth_link_priv = options.auth_link_priv || 'auth_link_priv';
     var auth_remove = options.auth_remove || 'auth_remove';
     plugin_options = options.plugin_options || {};
 
@@ -324,9 +325,14 @@ var plugin_options;
       document.body.appendChild(script);
     }
 
-    this.load = function(token) {
+    this.load = function(token, scope) {
       if (token) {
         document.getElementById(auth_link).style.display = 'none';
+        if (scope == 'repo') {
+          document.getElementById(auth_link_priv).style.display = 'none';
+        } else {
+          document.getElementById(auth_link_priv).style.display = 'inline-block';
+        }
         document.getElementById(auth_remove).style.display = 'inline-block';
         github = new Github({
           token: token
@@ -397,10 +403,10 @@ var plugin_options;
     
     // Called by authentication callback
     var self = this;
-    window.authComplete = function(token) {
+    window.authComplete = function(token, scope) {
       addCookie('access_token', token, 1);
       if (autoload) {
-        self.load(token);
+        self.load(token, scope);
       }
     }
   };
