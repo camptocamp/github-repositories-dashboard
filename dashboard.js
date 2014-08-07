@@ -327,13 +327,20 @@ var plugin_options;
 
     this.load = function(token, scope) {
       if (token) {
-        document.getElementById(auth_link).style.display = 'none';
-        if (scope == 'repo') {
-          document.getElementById(auth_link_priv).style.display = 'none';
-        } else {
-          document.getElementById(auth_link_priv).style.display = 'inline-block';
+        var auth_link_e = document.getElementById(auth_link);
+        var auth_link_priv_e = document.getElementById(auth_link_priv);
+        var auth_remove_e = document.getElementById(auth_remove);
+        if (auth_link_e) {
+          auth_link_e.style.display = 'none';
         }
-        document.getElementById(auth_remove).style.display = 'inline-block';
+        if (scope == 'repo' && auth_link_priv_e) {
+          auth_link_priv_e.style.display = 'none';
+        } else {
+          auth_link_priv_e.style.display = 'inline-block';
+        }
+        if (auth_remove_e) {
+          auth_remove_e.style.display = 'inline-block';
+        }
         github = new Github({
           token: token
         });
