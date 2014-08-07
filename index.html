@@ -39,8 +39,21 @@
     <script src="lib/sorttable.js"></script>
     <script src="dashboard.js"></script>
     <script language="JavaScript">
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
-document.title = 'Puppet Modules Dashboard for '+org;
+var org = getParameterByName('org') || 'hercules-team';
+var filter = getParameterByName('filter') || 'augeasproviders';
+
+var dash = new GHDashboard({
+  org: org,
+  filter: filter
+});
+document.title = 'Augeasproviders repositories for '+org;
     </script>
   </body>
 </html>
