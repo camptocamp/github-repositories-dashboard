@@ -91,19 +91,6 @@ var repoHeads;
     }
   }
 
-  sortByState = function() {
-    var reposTable = document.getElementById('repositories');
-    var heads = reposTable.getElementsByTagName('th');
-    var refreshTH = heads[heads.length-1];
-    sorttable.innerSortFunction.apply(refreshTH, []);
-    // Twice, to sort by reverse order
-    sorttable.innerSortFunction.apply(refreshTH, []);
-  }
- 
-  refreshList = function() {
-    reposFunc(account, listRepos);
-  }
-
   function refreshSort() {
     var reposTable = document.getElementById('repositories');
     var heads = reposTable.getElementsByTagName('th');
@@ -320,6 +307,19 @@ var repoHeads;
 
     account = org || user;
 
+    this.sortByState = function() {
+      var reposTable = document.getElementById('repositories');
+      var heads = reposTable.getElementsByTagName('th');
+      var refreshTH = heads[heads.length-1];
+      sorttable.innerSortFunction.apply(refreshTH, []);
+      // Twice, to sort by reverse order
+      sorttable.innerSortFunction.apply(refreshTH, []);
+    }
+ 
+    this.refreshList = function() {
+      reposFunc(account, listRepos);
+    }
+
     this.load = function(token) {
       if (token) {
         document.getElementById('auth_link').style.display = 'none';
@@ -380,7 +380,7 @@ var repoHeads;
       }
     
       sorttable.makeSortable(reposTable);
-      sortByState();
+      this.sortByState();
     };
 
     // Main
