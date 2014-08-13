@@ -116,7 +116,7 @@ function updateForgeCell(name, html, state, customkey) {
 
 function versionTagURL(tags, version) {
   for (var i=0; i<tags.length; i++) {
-    if (tags[i].name == version) {
+    if (tags[i].name == version || tags[i].name == 'v'+version) {
       return tags[i].commit.url;
     }
   }
