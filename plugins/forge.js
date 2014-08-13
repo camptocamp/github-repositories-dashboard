@@ -56,9 +56,9 @@ function checkForgeTags(repo, version, url) {
       html += ' <a href="'+repo.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
       updateForgeCell(repo.name, html, 'warn', '3');
     } else {
-      var tag_url = versionTagURL(tags, version);
-      if (tag_url) {
-        checkForgeTagsCommits(repo, version, url, tag_url);
+      var version_tag = versionTagURL(tags, version);
+      if (version_tag) {
+        checkForgeTagsCommits(repo, version, url, version_tag);
       } else {
         // No tag found, it's a warning
         html += ' <a href="'+repo.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
@@ -68,16 +68,16 @@ function checkForgeTags(repo, version, url) {
   });
 }
 
-function checkForgeTagsCommits(repo, version, url, tag_url) {
+function checkForgeTagsCommits(repo, version, url, version_tag) {
   var r = repositories[repo.name]['repo'];
   var b = repo.default_branch;
   var html = '<a href="'+url+'">'+version+'</a>';
-  html += ' <a href="'+tag_url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
+  html += ' <a href="'+version_tag.url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
   var state;
   var customkey;
 
   // get diff
-  r.compare(account+':'+version, account+':'+b, function(err, diff) {
+  r.compare(account+':'+version_tag.tag, account+':'+b, function(err, diff) {
     if (err) {
       html += ' <span title="Failed get commits since tag"><i class="fa fa-warning"></i></span>';
       updateCell(repo.name, 'status', html, 'err', '15');
@@ -117,7 +117,7 @@ function updateForgeCell(name, html, state, customkey) {
 function versionTagURL(tags, version) {
   for (var i=0; i<tags.length; i++) {
     if (tags[i].name == version || tags[i].name == 'v'+version) {
-      return tags[i].commit.url;
+      return { 'url': tags[i].commit.url, 'tag': tags[i].name };
     }
   }
 }
