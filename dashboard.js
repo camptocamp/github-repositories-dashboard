@@ -285,7 +285,7 @@ var plugin_options;
   var GHDashboard = function(options) {
     var org = options.org;
     var user = options.user;
-    refresh = options.refresh || 600000; // 100 minutes
+    refresh = options.refresh || 1800000; // 30 minutes
     refresh_randomize = options.refresh_randomize || 0.5; // up to 15 minutes
     var filter = options.filter;
     var autoload = options.autoload;
