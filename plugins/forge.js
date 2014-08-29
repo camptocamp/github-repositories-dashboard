@@ -30,7 +30,7 @@ function parseModulefile(repo, contents) {
 }
 
 function updateForge(repo, module) {
-  var m = module.split('-');
+  var m = module.split(/[\/-]/);
   var forgeAccount = plugin_options.forge.account || m[0];
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
   forgeAPICall('/users/'+forgeAccount+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
