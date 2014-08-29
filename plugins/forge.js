@@ -31,20 +31,16 @@ function parseModulefile(repo, contents) {
 
 function updateForge(repo, module) {
   var m = module.split('-');
-  var forgeAccount = plugin_options.forge.account || account;
+  var forgeAccount = plugin_options.forge.account || m[0];
   // forge.puppetlabs.com doesn't allow CORS, use a proxy
-  if (m[0] == forgeAccount) {
-    forgeAPICall('/users/'+m[0]+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
-      if (err) {
-        var html = '<span title="Module does not exist on the forge but has metadata file"><i class="fa fa-times"></i></span>';
-        updateForgeCell(repo.name, html, 'warn', '4');
-      } else {
-        checkForgeTags(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
-      }
-    });
-  } else {
-    updateForgeCell(repo.name, '', 'ok', '1');
-  }
+  forgeAPICall('/users/'+forgeAccount+'/modules/'+m[1]+'/releases/find.json', true, function(err, res) {
+    if (err) {
+      var html = '<span title="Module does not exist on the forge but has metadata file"><i class="fa fa-times"></i></span>';
+      updateForgeCell(repo.name, html, 'warn', '4');
+    } else {
+      checkForgeTags(repo, res.version, 'http://forge.puppetlabs.com'+res.file);
+    }
+  });
 };
 
 function checkForgeTags(repo, version, url) {
