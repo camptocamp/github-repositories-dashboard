@@ -14,9 +14,15 @@ dashboard.issues = function(repo) {
         status = 'warn';
       }
     } else {
-      text = issues.length;
-      customkey = issues.length;
-      if (issues.length > 0) {
+      var l = 0;
+      for (var i=0; i < issues.length; i++) {
+        if (issues[i].pull_request) {
+          l++;
+        }
+      }
+      text = l;
+      customkey = l;
+      if (l > 0) {
         status = 'warn';
       } else {
         status = 'ok';
