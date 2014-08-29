@@ -17,6 +17,15 @@ dashboard.travis = function(repo) {
   }
 }
 
+// Limit state to warning if repo is a fork
+function travisMungeState(repo, state) {
+  if (repo.fork && state == 'err') {
+    return 'warn';
+  } else {
+    return state;
+  }
+}
+
 function getTravisStatus(repo, priv, travis_token) {
   travisAPICall('/repos/'+account+'/'+repo.name+'/branches/'+repo.default_branch, null, priv, 'GET', travis_token, false, function(err, res) {
     var msg;
@@ -38,12 +47,12 @@ function getTravisStatus(repo, priv, travis_token) {
           image = 'passing';
           break;
         case 'failed':
-          status = 'err';
+          status = travisMungeState(repo, 'err');
           customkey = '1';
           image = 'failing';
           break;
         case 'errored':
-          status = 'err';
+          status = travisMungeState(repo, 'err');
           customkey = '2';
           image = 'error';
           break;
