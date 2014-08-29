@@ -14,13 +14,16 @@ dashboard.issues = function(repo) {
         status = 'warn';
       }
     } else {
+            console.log(issues);
       var l = 0;
       for (var i=0; i < issues.length; i++) {
-        if (issues[i].pull_request) {
+        if (! issues[i].pull_request) {
+          console.log(i+' is not a pull request');
           l++;
         }
       }
       text = l;
+      title = l+' open issues';
       customkey = l;
       if (l > 0) {
         status = 'warn';
