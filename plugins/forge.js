@@ -45,27 +45,36 @@ function updateForge(repo, module) {
 
 function checkForgeTags(repo, version, url) {
   // Check if there is a tag for the release
-  var r = repositories[repo.name]['repo'];
+  var tags_repo;
+  var tags_r;
+  if (repo.fork) {
+    tags_repo = repo.parent;
+    tags_r = github.getRepo(repo.parent.owner.login, repo.parent.name);
+    tags_r.info = repo.parent;
+  } else {
+    tags_repo = repo;
+    tags_r = repositories[repo.name]['repo'];
+    tags_r.info = repo.parent;
+  }
   var html = '<a href="'+url+'">'+version+'</a>';
-  r.listTags(function(err, tags) {
+  tags_r.listTags(function(err, tags) {
     if (err) {
-      html += ' <a href="'+repo.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
+      html += ' <a href="'+tags_repo.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
       updateForgeCell(repo.name, html, 'warn', '3');
     } else {
       var version_tag = versionTagURL(tags, version);
       if (version_tag) {
-        checkForgeTagsCommits(repo, version, url, version_tag);
+        checkForgeTagsCommits(repo, tags_r, version, url, version_tag);
       } else {
         // No tag found, it's a warning
-        html += ' <a href="'+repo.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
+        html += ' <a href="'+tags_repo.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
         updateForgeCell(repo.name, html, 'warn', '2');
       }
     }
   });
 }
 
-function checkForgeTagsCommits(repo, version, url, version_tag) {
-  var r = repositories[repo.name]['repo'];
+function checkForgeTagsCommits(repo, tags_r, version, url, version_tag) {
   var b = repo.default_branch;
   var html = '<a href="'+url+'">'+version+'</a>';
   html += ' <a href="'+version_tag.url+'" title="Matching tag found in repository"><i class="fa fa-tag"></i></a>';
@@ -73,7 +82,7 @@ function checkForgeTagsCommits(repo, version, url, version_tag) {
   var customkey;
 
   // get diff
-  r.compare(account+':'+version_tag.tag, account+':'+b, function(err, diff) {
+  tags_r.compare(tags_r.info.owner.login+':'+version_tag.tag, account+':'+b, function(err, diff) {
     if (err) {
       html += ' <span title="Failed get commits since tag"><i class="fa fa-warning"></i></span>';
       updateCell(repo.name, 'status', html, 'err', '15');
