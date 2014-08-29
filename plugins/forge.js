@@ -45,21 +45,18 @@ function updateForge(repo, module) {
 
 function checkForgeTags(repo, version, url) {
   // Check if there is a tag for the release
-  var tags_repo;
   var tags_r;
   if (repo.fork) {
-    tags_repo = repo.parent;
     tags_r = github.getRepo(repo.parent.owner.login, repo.parent.name);
     tags_r.info = repo.parent;
   } else {
-    tags_repo = repo;
     tags_r = repositories[repo.name]['repo'];
-    tags_r.info = repo.parent;
+    tags_r.info = repo;
   }
   var html = '<a href="'+url+'">'+version+'</a>';
   tags_r.listTags(function(err, tags) {
     if (err) {
-      html += ' <a href="'+tags_repo.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
+      html += ' <a href="'+tags_r.info.tags_url+'" title="Failed to get tags"><i class="fa fa-warning"></i></a>';
       updateForgeCell(repo.name, html, 'warn', '3');
     } else {
       var version_tag = versionTagURL(tags, version);
@@ -67,7 +64,7 @@ function checkForgeTags(repo, version, url) {
         checkForgeTagsCommits(repo, tags_r, version, url, version_tag);
       } else {
         // No tag found, it's a warning
-        html += ' <a href="'+tags_repo.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
+        html += ' <a href="'+tags_r.info.tags_url+'" title="No matching tag found in repository"><i class="fa fa-warning"></i></a>';
         updateForgeCell(repo.name, html, 'warn', '2');
       }
     }
