@@ -23,7 +23,7 @@ dashboard.status = function(repo) {
           diff_msg = '<span title="'+diff.behind_by+' commits behind"><i class="fa fa-angle-double-down"></i> ('+diff.behind_by+')</span>';
           diff_url = invertDiffURL(diff.html_url);
           html = '<a href="'+diff_url+'">'+diff_msg+'</a>';
-          state = 'warn';
+          state = 'ok';
           customkey = '2';
         } else if (diff.status == 'diverged') {
           ahead_url = diff.html_url;
