@@ -21,7 +21,7 @@ This dashboard takes various query parameters:
 
 ## Plugins
 
-Appart from the first (name) and last (refresh) columns, all columns in the dashboard are managed by plugins.
+Apart from the first (name) and last (refresh) columns, all columns in the dashboard are managed by plugins.
 
 `index.html` provides an example skeleton for a dashboard. You can activate, move or remove columns easily.
 
